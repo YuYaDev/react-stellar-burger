@@ -35,6 +35,7 @@ const BurgerConstructor = ({ ingredients }) => {
     const buns = ingredients.filter(isBun);
 
     return (
+        buns.length >= 2 &&
         <div className={`${burgerConstructorStyles.container} pt-15 pb-4`}>
             <div className="pr-4">
                 <Position ingrdData={buns[0]} bunType="upBun" />

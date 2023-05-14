@@ -4,6 +4,7 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import React from "react";
 import headerStyles from "../app-header/app-header.module.css";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
                 <p className="text text_type_main-large pb-5">Соберите бургер</p>
                 <BurgerIngredients ingredients={data}/>
             </div>
-
+            <BurgerConstructor ingredients={data}/>
         </main>
 
     </div>

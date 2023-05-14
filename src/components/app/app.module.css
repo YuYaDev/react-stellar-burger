@@ -8,8 +8,8 @@
 }
 
 .main {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  width: 100%;
+  display: grid;
+  gap: 40px;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
 }

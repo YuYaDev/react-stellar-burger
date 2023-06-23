@@ -1,22 +1,23 @@
 
 import {Button, CurrencyIcon, DeleteIcon, LockIcon, DragIcon  } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructorStyles from "../burger-constructor/burger-constructor.module.css";
-import React from "react";
+import React, {useMemo} from "react";
+import PropTypes from "prop-types";
+import {ingredientPropType} from "../../utils/prop-types";
 
-const Position = ({ ingrdData, bunType = "mainBun"}) => {
-
-    const backgroundType = bunType === "mainBun" ? {borderRadius: "40px"}
-        : bunType === "upBun" ? {borderRadius: "88px 88px 40px 40px"} : {borderRadius: "40px 40px 88px 88px"}
+const Position = ({ ingredientData, bunType = "mainBun"}) => {
 
     return (
         <div className={`${burgerConstructorStyles.position}`}>
-            {(bunType === "mainBun") && <DragIcon type="primary" /> || <div></div>}
+            { bunType === "mainBun" ?  <DragIcon type="primary" /> : <div></div>}
 
-            <div className={`${burgerConstructorStyles.ingredient} pr-5 pl-2 pt-4 pb-4`} style={backgroundType}>
-                <img className={burgerConstructorStyles.ingrdImage} src={ingrdData.image} alt="ingredient"/>
-                <p className={`text text_type_main-default`}>{ingrdData.name}</p>
+            <div className={`${burgerConstructorStyles.ingredient} pr-5 pl-2 pt-4 pb-4 ${bunType === "mainBun" ? burgerConstructorStyles.mainBunBorder
+                : bunType === "upBun" ? burgerConstructorStyles.upBunBorder : burgerConstructorStyles.downBunBorder }`}>
+
+                <img className={burgerConstructorStyles.ingredientImage} src={ingredientData.image} alt="ingredient"/>
+                <p className={`text text_type_main-default`}>{ingredientData.name}</p>
                 <div className={burgerConstructorStyles.price}>
-                    <p className="text text_type_digits-default pr-2">{ingrdData.price}</p>
+                    <p className="text text_type_digits-default pr-2">{ingredientData.price}</p>
                     <CurrencyIcon type="primary" />
                 </div>
                 {(bunType !== "mainBun") && <LockIcon type="primary" />}
@@ -26,31 +27,27 @@ const Position = ({ ingrdData, bunType = "mainBun"}) => {
     );
 };
 
-
 const BurgerConstructor = ({ ingredients }) => {
 
-    function isBun(ingredient) {
-        return ingredient.type === "bun";
-    }
-    const buns = ingredients.filter(isBun);
+    const buns = useMemo(() => ingredients.filter(isBun), [ingredients]);
 
     return (
         buns.length >= 2 &&
         <div className={`${burgerConstructorStyles.container} pt-15 pb-4`}>
             <div className="pr-4">
-                <Position ingrdData={buns[0]} bunType="upBun" />
+                <Position ingredientData={buns[0]} bunType="upBun" />
             </div>
 
             <div className={`${burgerConstructorStyles.mainContainer} pr-1 custom-scroll`}>
                 {
                     ingredients.map((item, index) => {
                         if (item.type !== "bun")
-                            return <Position ingrdData={item} key={index}/>
+                            return <Position ingredientData={item} key={index}/>
                     })
                 }
             </div>
             <div className="pr-4 pb-1">
-                <Position ingrdData={buns[1]} bunType="downBun" />
+                <Position ingredientData={buns[1]} bunType="downBun" />
             </div>
 
             <div className={`${burgerConstructorStyles.orderContainer} mt-5 mb-5`}>
@@ -66,5 +63,12 @@ const BurgerConstructor = ({ ingredients }) => {
     );
 }
 
+BurgerConstructor.propTypes = {
+    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
+}
+
+function isBun(ingredient) {
+    return ingredient.type === "bun";
+}
 
 export default BurgerConstructor;

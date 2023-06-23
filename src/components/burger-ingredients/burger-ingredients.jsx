@@ -1,21 +1,9 @@
-import {Counter, Tab, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import burgerIngredStyles from './burger-ingredients.module.css';
-import React, { useState } from "react";
-
-
-const Ingredient = ({ ingrdData }) => {
-    return (
-        <div className={burgerIngredStyles.ingredientContainer}>
-            <Counter count={1} size="default" extraClass="m-1"/>
-            <img className="pl-4 pr-4" src={ingrdData.image} alt="Ingredient"/>
-            <div className={burgerIngredStyles.price}>
-                <p className="text text_type_digits-default pr-2">{ingrdData.price}</p>
-                <CurrencyIcon type="primary" />
-            </div>
-            <p className={`text text_type_main-default ${burgerIngredStyles.nameText}`}>{ingrdData.name}</p>
-        </div>
-    );
-}
+import React from "react";
+import PropTypes from "prop-types";
+import {ingredientPropType} from "../../utils/prop-types";
+import Ingredient from "../ingredient/ingredient";
 
 const BurgerIngredients = ({ ingredients }) => {
     const [current, setCurrent] = React.useState("leaf")
@@ -36,30 +24,37 @@ const BurgerIngredients = ({ ingredients }) => {
         <div className={`${burgerIngredStyles.container} custom-scroll`}>
             <p className="text text_type_main-medium pt-5 pb-2" id="leaf">Булки</p>
             <div className={`${burgerIngredStyles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
-                {   ingredients.map((item, index)=>{
-                    if( item.type === 'bun')
-                        return <Ingredient ingrdData={item} key={index} />
-                })}
+                {
+                    ingredients.filter(item => item.type === 'bun').map((item, index)=>{
+                        return <Ingredient ingredientData={item} key={index} />
+                    })
+                }
             </div>
 
             <p className="text text_type_main-medium pt-5 pb-2" id="souce">Соусы</p>
             <div className={`${burgerIngredStyles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
-                {   ingredients.map((item, index)=>{
-                    if( item.type === 'sauce')
-                        return <Ingredient ingrdData={item} key={index} />
-                })}
+                {
+                    ingredients.filter(item => item.type === 'sauce').map((item, index)=>{
+                        return <Ingredient ingredientData={item} key={index} />
+                    })
+                }
             </div>
 
             <p className="text text_type_main-medium pt-5 pb-2" id="filling">Начинки</p>
             <div className={`${burgerIngredStyles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
-                {   ingredients.map((item, index)=>{
-                    if( item.type === 'main')
-                        return <Ingredient ingrdData={item} key={index} />
-                })}
+                {
+                    ingredients.filter(item => item.type === 'main').map((item, index)=>{
+                        return <Ingredient ingredientData={item} key={index} />
+                    })
+                }
             </div>
         </div>
         </>
     );
+}
+
+BurgerIngredients.propTypes = {
+    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
 }
 
 export default BurgerIngredients;

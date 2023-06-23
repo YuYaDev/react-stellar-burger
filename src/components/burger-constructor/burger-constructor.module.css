@@ -2,7 +2,7 @@
     width: 600px;
     display: flex;
     flex-direction: column;
-    max-height: 70vh;
+    max-height: 60vh;
     gap: 16px;
 
 }
@@ -29,7 +29,7 @@
     align-items: center;
 }
 
-.ingrdImage {
+.ingredientImage {
     max-height: 40px;
 }
 
@@ -51,4 +51,16 @@
 .totalPriceIcon {
     width: 36px;
     height: 36px;
+}
+
+.mainBunBorder {
+    border-radius: 40px;
+}
+
+.upBunBorder {
+    border-radius: 88px 88px 40px 40px;
+}
+
+.downBunBorder {
+    border-radius: 40px 40px 88px 88px;
 }

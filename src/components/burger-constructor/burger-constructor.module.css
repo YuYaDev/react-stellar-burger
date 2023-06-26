@@ -7,32 +7,6 @@
 
 }
 
-.position{
-    display: grid;
-    grid-template-columns: 32px 1fr;
-    align-items: center;
-    height: 80px;
-}
-
-.ingredient {
-    background-color: #1C1C21;
-    display: grid;
-    grid-template-columns: 80px auto auto 24px;
-    align-items: center;
-    gap: 20px;
-}
-
-.price{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.ingredientImage {
-    max-height: 40px;
-}
-
 .mainContainer {
     overflow-y: auto;
     display: flex;
@@ -53,14 +27,9 @@
     height: 36px;
 }
 
-.mainBunBorder {
-    border-radius: 40px;
-}
-
-.upBunBorder {
-    border-radius: 88px 88px 40px 40px;
-}
-
-.downBunBorder {
-    border-radius: 40px 40px 88px 88px;
+.price{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
 }

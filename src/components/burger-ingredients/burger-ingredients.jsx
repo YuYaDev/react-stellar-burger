@@ -1,12 +1,16 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import burgerIngredStyles from './burger-ingredients.module.css';
-import React from "react";
+import React, {useMemo} from "react";
 import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
 import Ingredient from "../ingredient/ingredient";
 
 const BurgerIngredients = ({ ingredients }) => {
     const [current, setCurrent] = React.useState("leaf")
+    const bunList = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
+    const sauceList = useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
+    const mainList = useMemo(() => ingredients.filter(item => item.type === 'main'), [ingredients]);
+
     return (
         <>
         <div style={{ display: 'flex' }} className="mb-5">
@@ -25,7 +29,7 @@ const BurgerIngredients = ({ ingredients }) => {
             <p className="text text_type_main-medium pt-5 pb-2" id="leaf">Булки</p>
             <div className={`${burgerIngredStyles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
                 {
-                    ingredients.filter(item => item.type === 'bun').map((item, index)=>{
+                    bunList.map((item, index)=>{
                         return <Ingredient ingredientData={item} key={index} />
                     })
                 }
@@ -34,7 +38,7 @@ const BurgerIngredients = ({ ingredients }) => {
             <p className="text text_type_main-medium pt-5 pb-2" id="souce">Соусы</p>
             <div className={`${burgerIngredStyles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
                 {
-                    ingredients.filter(item => item.type === 'sauce').map((item, index)=>{
+                    sauceList.map((item, index)=>{
                         return <Ingredient ingredientData={item} key={index} />
                     })
                 }
@@ -43,7 +47,7 @@ const BurgerIngredients = ({ ingredients }) => {
             <p className="text text_type_main-medium pt-5 pb-2" id="filling">Начинки</p>
             <div className={`${burgerIngredStyles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
                 {
-                    ingredients.filter(item => item.type === 'main').map((item, index)=>{
+                    mainList.map((item, index)=>{
                         return <Ingredient ingredientData={item} key={index} />
                     })
                 }

@@ -1,5 +1,5 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-import burgerIngredStyles from './burger-ingredients.module.css';
+import styles from './burger-ingredients.module.css';
 import React, {useMemo} from "react";
 import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
@@ -13,21 +13,15 @@ const BurgerIngredients = ({ ingredients }) => {
 
     return (
         <>
-        <div style={{ display: 'flex' }} className="mb-5">
-            <a href="#leaf">
-                <Tab value="leaf" active={current === 'leaf'} onClick={setCurrent}>Булки</Tab>
-            </a>
-            <a href="#souce">
-                <Tab value="souce" active={current === 'souce'} onClick={setCurrent}>Соусы</Tab>
-            </a>
-            <a href="#filling">
-                <Tab value="filling" active={current === 'filling'} onClick={setCurrent}>Начинки</Tab>
-            </a>
+        <div className={`${styles.tabWrapper} mb-5`}>
+            <Tab value="leaf" active={current === 'leaf'} onClick={setCurrent}>Булки</Tab>
+            <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>Соусы</Tab>
+            <Tab value="filling" active={current === 'filling'} onClick={setCurrent}>Начинки</Tab>
         </div>
 
-        <div className={`${burgerIngredStyles.container} custom-scroll`}>
+        <div className={`${styles.container} custom-scroll`}>
             <p className="text text_type_main-medium pt-5 pb-2" id="leaf">Булки</p>
-            <div className={`${burgerIngredStyles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
+            <div className={`${styles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
                 {
                     bunList.map((item, index)=>{
                         return <Ingredient ingredientData={item} key={index} />
@@ -35,8 +29,8 @@ const BurgerIngredients = ({ ingredients }) => {
                 }
             </div>
 
-            <p className="text text_type_main-medium pt-5 pb-2" id="souce">Соусы</p>
-            <div className={`${burgerIngredStyles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
+            <p className="text text_type_main-medium pt-5 pb-2" id="sauce">Соусы</p>
+            <div className={`${styles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
                 {
                     sauceList.map((item, index)=>{
                         return <Ingredient ingredientData={item} key={index} />
@@ -45,7 +39,7 @@ const BurgerIngredients = ({ ingredients }) => {
             </div>
 
             <p className="text text_type_main-medium pt-5 pb-2" id="filling">Начинки</p>
-            <div className={`${burgerIngredStyles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
+            <div className={`${styles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
                 {
                     mainList.map((item, index)=>{
                         return <Ingredient ingredientData={item} key={index} />

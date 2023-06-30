@@ -1,17 +1,17 @@
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import ingredientStyles from './ingredient.module.css';
+import styles from './ingredient.module.css';
 import {ingredientPropType} from "../../utils/prop-types";
 
 const Ingredient = ({ ingredientData }) => {
     return (
-        <div className={ingredientStyles.container}>
+        <div className={styles.container}>
             <Counter count={1} size="default" extraClass="m-1"/>
             <img className="pl-4 pr-4" src={ingredientData.image} alt="Ingredient"/>
-            <div className={ingredientStyles.price}>
+            <div className={styles.price}>
                 <p className="text text_type_digits-default pr-2">{ingredientData.price}</p>
                 <CurrencyIcon type="primary" />
             </div>
-            <p className={`text text_type_main-default ${ingredientStyles.nameText}`}>{ingredientData.name}</p>
+            <p className={`text text_type_main-default ${styles.nameText}`}>{ingredientData.name}</p>
         </div>
     );
 }

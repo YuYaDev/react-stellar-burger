@@ -2,35 +2,9 @@
     width: 600px;
     display: flex;
     flex-direction: column;
-    max-height: 70vh;
+    max-height: 60vh;
     gap: 16px;
 
-}
-
-.position{
-    display: grid;
-    grid-template-columns: 32px 1fr;
-    align-items: center;
-    height: 80px;
-}
-
-.ingredient {
-    background-color: #1C1C21;
-    display: grid;
-    grid-template-columns: 80px auto auto 24px;
-    align-items: center;
-    gap: 20px;
-}
-
-.price{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.ingrdImage {
-    max-height: 40px;
 }
 
 .mainContainer {
@@ -51,4 +25,11 @@
 .totalPriceIcon {
     width: 36px;
     height: 36px;
+}
+
+.price{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
 }

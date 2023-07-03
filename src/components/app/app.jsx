@@ -1,34 +1,55 @@
 import React, { useState, useEffect} from 'react'
 import styles from "./app.module.css";
-import { data } from "../../utils/data";
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import React from "react";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-const URL = 'https://norma.nomoreparties.space/api/ingredients '
+const URL = 'https://norma.nomoreparties.space/api/ingredients'
 
 function App() {
-    const [data, setData] = useState([])
+
+    const [ingredients, setIngredients] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
         fetch(URL)
-            .then(resp => resp.json())
-            .then(data => setData(data.data))
-            .catch(error => console.log(error))
-        }, [])
+            .then((response) => {
+                return response.json();
+            })
+            .then((actualData) => {
+                setIngredients(actualData.data);
+                setError(null);
+            })
+            .catch((err) => {
+                setError(err.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
+
 
     return (
-    <div className={styles.app}>
-        <AppHeader />
+        <div>
+            {loading && <div>Данные загружаются...</div>}
+            {error && (
+                <div>{`Возникла проблема загрузки данных - ${error}`}</div>
+            )}
+            {loading === false && ingredients &&
+                <div className={styles.app}>
+                    <AppHeader/>
 
-        <main className={styles.main}>
-            <div>
-                <p className="text text_type_main-large pb-5">Соберите бургер</p>
-                <BurgerIngredients ingredients={data}/>
-            </div>
-            <BurgerConstructor ingredients={data}/>
-        </main>
+                    <main className={styles.main}>
+                        <div>
+                            <p className="text text_type_main-large pb-5">Соберите бургер</p>
+                            <BurgerIngredients ingredients={ingredients}/>
+                        </div>
+                        <BurgerConstructor ingredients={ingredients}/>
+                    </main>
 
-    </div>
+                </div>
+            }
+        </div>
   );
 }
 

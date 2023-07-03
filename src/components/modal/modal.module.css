@@ -6,6 +6,7 @@
     left: calc(50% - 718px / 2);
     background-color: #1C1C21;
     border-radius: 40px;
+    box-sizing: border-box;
 }
 
 .closeIcon {
@@ -16,3 +17,4 @@
     border-color: transparent;
     cursor: pointer;
 }
+

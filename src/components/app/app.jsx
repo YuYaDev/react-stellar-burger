@@ -14,6 +14,8 @@ function App() {
     const [error, setError] = useState(null);
     const [isModalVisible, setModalVisible] = useState(true);
 
+    const [modalData, setModalData] = useState([]);
+
     useEffect(() => {
         fetch(URL)
             .then((response) => {
@@ -34,25 +36,26 @@ function App() {
 
     }, []);
 
+
     function escFunction(event){
         if (event.key === "Escape") {
             handleModalClose();
         }
     }
 
-    function handleModalClose() {
+    const  handleModalClose = () => {
         setModalVisible(false);
     }
 
-    function handleModalOpen() {
-        setModalVisible(false);
+    const handleModalOpen = (newModalData) => {
+        setModalData(newModalData);
+        setModalVisible(true);
     }
 
 
     const modal = (
-        <Modal onClose={handleModalClose}>
-            <p>Спасибо за внимание!</p>
-            <p>Открывай меня, если станет скучно :)</p>
+        <Modal header='Я заголовок' onClose={handleModalClose}>
+            {modalData.name}
         </Modal>
     );
 
@@ -72,7 +75,7 @@ function App() {
                     <main className={styles.main}>
                         <div>
                             <p className="text text_type_main-large pb-5">Соберите бургер</p>
-                            <BurgerIngredients ingredients={ingredients}/>
+                            <BurgerIngredients ingredients={ingredients} openModal={handleModalOpen} />
                         </div>
                         <BurgerConstructor ingredients={ingredients}/>
                     </main>

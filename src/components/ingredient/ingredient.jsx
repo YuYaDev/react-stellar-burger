@@ -2,9 +2,9 @@ import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-com
 import styles from './ingredient.module.css';
 import {ingredientPropType} from "../../utils/prop-types";
 
-const Ingredient = ({ ingredientData }) => {
+const Ingredient = ({ ingredientData, openModal}) => {
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={() => openModal(ingredientData)}>
             <Counter count={1} size="default" extraClass="m-1"/>
             <img className="pl-4 pr-4" src={ingredientData.image} alt="Ingredient"/>
             <div className={styles.price}>

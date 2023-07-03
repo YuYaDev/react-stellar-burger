@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
 import Ingredient from "../ingredient/ingredient";
 
-const BurgerIngredients = ({ ingredients }) => {
+const BurgerIngredients = ({ ingredients, openModal }) => {
     const [current, setCurrent] = React.useState("leaf")
     const bunList = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
     const sauceList = useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
@@ -24,7 +24,7 @@ const BurgerIngredients = ({ ingredients }) => {
             <div className={`${styles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
                 {
                     bunList.map((item, index)=>{
-                        return <Ingredient ingredientData={item} key={index} />
+                        return <Ingredient ingredientData={item} key={index} openModal={openModal} />
                     })
                 }
             </div>
@@ -33,7 +33,7 @@ const BurgerIngredients = ({ ingredients }) => {
             <div className={`${styles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
                 {
                     sauceList.map((item, index)=>{
-                        return <Ingredient ingredientData={item} key={index} />
+                        return <Ingredient ingredientData={item} key={index}  openModal={openModal}/>
                     })
                 }
             </div>
@@ -42,7 +42,7 @@ const BurgerIngredients = ({ ingredients }) => {
             <div className={`${styles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
                 {
                     mainList.map((item, index)=>{
-                        return <Ingredient ingredientData={item} key={index} />
+                        return <Ingredient ingredientData={item} key={index}  openModal={openModal} />
                     })
                 }
             </div>

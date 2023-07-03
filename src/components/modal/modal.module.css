@@ -1,6 +1,5 @@
 .container {
     width: 718px;
-    height: 720px;
     position:absolute;
     top: calc(50% - 720px / 2);
     left: calc(50% - 718px / 2);
@@ -10,11 +9,13 @@
 }
 
 .closeIcon {
-    position: absolute;
-    right: 40px;
-    top: 60px;
     background-color: transparent;
     border-color: transparent;
     cursor: pointer;
 }
 
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

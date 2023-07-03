@@ -4,6 +4,8 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import OrderDetails from "../order-details/order-details";
 
 const URL = 'https://norma.nomoreparties.space/api/ingredients'
 
@@ -12,9 +14,10 @@ function App() {
     const [ingredients, setIngredients] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [isModalVisible, setModalVisible] = useState(true);
 
+    const [isModalVisible, setModalVisible] = useState(false);
     const [modalData, setModalData] = useState([]);
+    const [modalType, setModalType] = useState(null);
 
     useEffect(() => {
         fetch(URL)
@@ -47,16 +50,36 @@ function App() {
         setModalVisible(false);
     }
 
-    const handleModalOpen = (newModalData) => {
-        setModalData(newModalData);
+    const handleModalOpen = () => {
         setModalVisible(true);
     }
 
+    const handleIngredientModal = (newModalData) => {
+        setModalData(newModalData);
+        setModalType('ingredientModal');
+        handleModalOpen();
+    }
+
+    const handleOrderModal = () => {
+        setModalType('orderModal');
+        handleModalOpen();
+    }
 
     const modal = (
-        <Modal header='Я заголовок' onClose={handleModalClose}>
-            {modalData.name}
-        </Modal>
+        <>
+            {
+                modalType === 'ingredientModal' &&
+                <Modal header='Детали ингредиента' onClose={handleModalClose}>
+                    <IngredientDetails ingredientData={modalData}/>
+                </Modal>
+            }
+            {
+                modalType === 'orderModal' &&
+                <Modal onClose={handleModalClose}>
+                    <OrderDetails />
+                </Modal>
+            }
+        </>
     );
 
     return (
@@ -75,9 +98,9 @@ function App() {
                     <main className={styles.main}>
                         <div>
                             <p className="text text_type_main-large pb-5">Соберите бургер</p>
-                            <BurgerIngredients ingredients={ingredients} openModal={handleModalOpen} />
+                            <BurgerIngredients ingredients={ingredients} openModal={handleIngredientModal} />
                         </div>
-                        <BurgerConstructor ingredients={ingredients}/>
+                        <BurgerConstructor ingredients={ingredients} openModal={handleOrderModal}/>
                     </main>
 
                 </div>

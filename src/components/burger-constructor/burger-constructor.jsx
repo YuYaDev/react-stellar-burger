@@ -7,7 +7,7 @@ import {ingredientPropType} from "../../utils/prop-types";
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 
 
-const BurgerConstructor = ({ ingredients }) => {
+const BurgerConstructor = ({ ingredients, openModal }) => {
 
     const buns = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
     const fillings = useMemo(() => ingredients.filter(item => item.type !== 'bun'), [ingredients]);
@@ -35,7 +35,7 @@ const BurgerConstructor = ({ ingredients }) => {
                     <p className="text text_type_digits-medium pr-2">610</p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button htmlType="button" type="primary" size="large">
+                <Button onClick={openModal} htmlType="button" type="primary" size="large">
                     Оформить заказ
                 </Button>
             </div>

@@ -3,6 +3,8 @@ import styles from "./app.module.css";
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import Modal from "../modal/modal";
+
 const URL = 'https://norma.nomoreparties.space/api/ingredients'
 
 function App() {
@@ -10,6 +12,7 @@ function App() {
     const [ingredients, setIngredients] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isModalVisible, setModalVisible] = useState(true);
 
     useEffect(() => {
         fetch(URL)
@@ -26,11 +29,38 @@ function App() {
             .finally(() => {
                 setLoading(false);
             });
+
+        document.addEventListener("keydown", escFunction);
+
     }, []);
 
+    function escFunction(event){
+        if (event.key === "Escape") {
+            handleModalClose();
+        }
+    }
+
+    function handleModalClose() {
+        setModalVisible(false);
+    }
+
+    function handleModalOpen() {
+        setModalVisible(false);
+    }
+
+
+    const modal = (
+        <Modal onClose={handleModalClose}>
+            <p>Спасибо за внимание!</p>
+            <p>Открывай меня, если станет скучно :)</p>
+        </Modal>
+    );
 
     return (
-        <div>
+        <div style={{overflow: 'hidden'}}>
+
+            {isModalVisible && modal}
+
             {loading && <div>Данные загружаются...</div>}
             {error && (
                 <div>{`Возникла проблема загрузки данных - ${error}`}</div>

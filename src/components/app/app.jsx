@@ -75,7 +75,7 @@ function App() {
             }
             {
                 modalType === 'orderModal' &&
-                <Modal onClose={handleModalClose}>
+                <Modal  header='' onClose={handleModalClose}>
                     <OrderDetails />
                 </Modal>
             }

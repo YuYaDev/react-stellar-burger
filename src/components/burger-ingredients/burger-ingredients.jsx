@@ -1,33 +1,20 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredients.module.css';
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
 import Ingredient from "../ingredient/ingredient";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
-const BurgerIngredients = ({ ingredients, openModal }) => {
+const BurgerIngredients = ({ ingredients }) => {
     const [current, setCurrent] = React.useState("leaf")
     const bunList = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
     const sauceList = useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
     const mainList = useMemo(() => ingredients.filter(item => item.type === 'main'), [ingredients]);
 
-    useEffect(() => {
-        function escFunction(event){
-            if (event.key === "Escape") {
-                handleModalClose();
-            }
-        }
-
-        document.addEventListener("keydown", escFunction);
-        return() => { document.removeEventListener("keydown", escFunction);}
-
-    }, []);
-
-
     const [isModalVisible, setModalVisible] = useState(false);
-    const [modalData, setModalData] = useState([]);
+    const [modalData, setModalData] = useState({});
 
     const handleModalClose = () => {
         setModalVisible(false);
@@ -39,7 +26,7 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
     }
     const modal = (
         <Modal header='Детали ингредиента' onClose={handleModalClose}>
-             <IngredientDetails ingredientData={modalData}/>
+            {modalData && <IngredientDetails ingredientData={modalData}/>}
         </Modal>
     );
 
@@ -76,7 +63,7 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
             <div className={`${styles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
                 {
                     mainList.map((item, index)=>{
-                        return <Ingredient ingredientData={item} key={index}  openModal={openModal} />
+                        return <Ingredient ingredientData={item} key={index}  openModal={handleModalOpen} />
                     })
                 }
             </div>
@@ -86,8 +73,7 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
 }
 
 BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-    openModal: PropTypes.func
+    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired
 }
 
 export default BurgerIngredients;

@@ -1,7 +1,7 @@
 
 import {Button, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "../burger-constructor/burger-constructor.module.css";
-import React, {useEffect, useMemo, useState} from "react";
+import React,  {useMemo, useState} from "react";
 import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
@@ -13,18 +13,6 @@ const BurgerConstructor = ({ ingredients }) => {
 
     const buns = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
     const fillings = useMemo(() => ingredients.filter(item => item.type !== 'bun'), [ingredients]);
-
-    useEffect(() => {
-        function escFunction(event){
-            if (event.key === "Escape") {
-                handleModalClose();
-            }
-        }
-
-        document.addEventListener("keydown", escFunction);
-        return() => { document.removeEventListener("keydown", escFunction);}
-
-    }, []);
 
     const [isModalVisible, setModalVisible] = useState(false);
 

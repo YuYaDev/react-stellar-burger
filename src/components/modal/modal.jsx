@@ -3,10 +3,24 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import styles from "../modal/modal.module.css";
 import {CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from "prop-types";
+import {useEffect} from "react";
 
 const modalRoot = document.getElementById("react-modals");
 
 const Modal = ({header, children, onClose}) => {
+
+    useEffect(() => {
+        function escFunction(event){
+            if (event.key === "Escape") {
+                onClose();
+            }
+        }
+
+        document.addEventListener("keydown", escFunction);
+        return() => { document.removeEventListener("keydown", escFunction);}
+
+    }, []);
+
 
     return ReactDOM.createPortal(
         (

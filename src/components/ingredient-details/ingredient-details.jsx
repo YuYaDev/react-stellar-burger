@@ -1,4 +1,6 @@
 import styles from "../ingredient-details/ingredient-details.module.css";
+import PropTypes from "prop-types";
+
 
 const IngredientDetails  = ({ ingredientData }) => {
     return (
@@ -26,5 +28,11 @@ const IngredientDetails  = ({ ingredientData }) => {
         </div>
     );
 }
+
+IngredientDetails.propTypes = {
+    // ingredientPropType или undefined в случае инициализации modalData в BurgerIngredients
+    ingredientData: PropTypes.any.isRequired
+}
+
 
 export default IngredientDetails ;

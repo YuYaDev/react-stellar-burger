@@ -1,0 +1,35 @@
+.container {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    max-height: 60vh;
+    gap: 16px;
+
+}
+
+.mainContainer {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.orderContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 40px;
+}
+
+.totalPriceIcon {
+    width: 36px;
+    height: 36px;
+}
+
+.price{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}

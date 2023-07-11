@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image{
+    width: 480px;
+}
+
+.nutritionContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 16px 0 0 0;
+    margin: 0;
+}
+
+.nutritionValue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

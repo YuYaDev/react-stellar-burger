@@ -4,4 +4,12 @@
   height: 100vh;
   background-color: #131316;
   color: #f2f2f3;
+  align-items: center;
+}
+
+.main {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
 }

@@ -1,0 +1,16 @@
+.container{
+    width: 600px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    max-height: 70vh;
+}
+
+.gridWrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.tabWrapper{
+    display: flex;
+}

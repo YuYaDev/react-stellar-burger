@@ -1,0 +1,21 @@
+.container {
+    width: 718px;
+    position:absolute;
+    top: calc(50% - 720px / 2);
+    left: calc(50% - 718px / 2);
+    background-color: #1C1C21;
+    border-radius: 40px;
+    box-sizing: border-box;
+}
+
+.closeIcon {
+    background-color: transparent;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

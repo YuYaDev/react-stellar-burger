@@ -4,6 +4,7 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Api from "../../utils/api";
+import {IngredientContext} from "../../utils/contexts";
 
 const api = new Api();
 
@@ -40,11 +41,13 @@ function App() {
                     <AppHeader/>
 
                     <main className={styles.main}>
-                        <div>
+                        <IngredientContext.Provider value={ingredients}>
+                            <div>
                             <p className="text text_type_main-large pb-5">Соберите бургер</p>
-                            <BurgerIngredients ingredients={ingredients}  />
+                            <BurgerIngredients />
                         </div>
-                        <BurgerConstructor ingredients={ingredients} />
+                        <BurgerConstructor />
+                        </IngredientContext.Provider>
                     </main>
 
                 </div>

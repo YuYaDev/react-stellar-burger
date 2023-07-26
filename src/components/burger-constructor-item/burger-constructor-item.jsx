@@ -1,8 +1,9 @@
 import styles from "../burger-constructor-item/burger-constructor-item.module.css";
 import {CurrencyIcon, DeleteIcon, DragIcon, LockIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import PropTypes from "prop-types";
 import {ingredientPropType} from "../../utils/prop-types";
+import {OrderContext} from "../../utils/contexts";
 
 function getBunStyle(bunType) {
     if( bunType === "mainBun"){
@@ -15,6 +16,12 @@ function getBunStyle(bunType) {
 }
 
 const BurgerConstructorItem = ({ ingredientData, bunType = "mainBun"}) => {
+
+    const {orderDispatcher} = useContext(OrderContext);
+    useEffect(() => {
+        orderDispatcher({type: 'add', price: ingredientData.price, ingredientId: ingredientData._id});
+    }, [ingredientData, orderDispatcher]);
+
 
     return (
         <div className={`${styles.position}`}>

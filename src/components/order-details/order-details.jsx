@@ -1,6 +1,6 @@
 import styles from "../order-details/order-details.module.css";
 import doneImage from "../../images/done.svg"
-import {orderPropType} from "../../utils/prop-types";
+import PropTypes from "prop-types";
 
 const OrderDetails  = ({orderData}) => {
     return (
@@ -15,7 +15,8 @@ const OrderDetails  = ({orderData}) => {
 }
 
 OrderDetails.propTypes = {
-    orderData: orderPropType.isRequired
+    // OrderPropType или undefined в случае инициализации modalData в BurgerConstructor
+    orderData: PropTypes.any.isRequired
 }
 
 export default OrderDetails ;

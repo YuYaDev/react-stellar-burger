@@ -6,15 +6,13 @@ import BurgerConstructorItem from "../burger-constructor-item/burger-constructor
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import {IngredientContext, OrderContext} from "../../utils/contexts";
-import Api from "../../utils/api";
-
-
-
+import {api} from "../app/app";
 
 const BurgerConstructor = () => {
     const ingredients = useContext(IngredientContext);
-
+    // Получаем все булки, но выбираем одну, т.к. по заданию верхняя и нижняя должны быть одинаковы
     const buns = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
+
     const fillings = useMemo(() => ingredients.filter(item => item.type !== 'bun'), [ingredients]);
 
     const [isModalVisible, setModalVisible] = useState(false);
@@ -25,8 +23,6 @@ const BurgerConstructor = () => {
     }
 
     const handleCreateOrder = () => {
-        const api = new Api();
-
         api.createOrder(orderState.ingredientIDs)
             .then((data) => {
                 setModalData(data);
@@ -73,16 +69,16 @@ const BurgerConstructor = () => {
                 <BurgerConstructorItem ingredientData={buns[0]} bunType="upBun" />
             </div>
 
-            <div className={`${styles.mainContainer} pr-1 custom-scroll`}>
+            <div className={`${styles.mainContainer} custom-scroll`}>
                 {
-                    fillings.map((item, index)=>{
-                        return <BurgerConstructorItem ingredientData={item} key={index}/>
+                    fillings.map((item)=>{
+                        return <BurgerConstructorItem ingredientData={item} key={item._id}/>
                     })
                 }
             </div>
 
             <div className="pr-4 pb-1">
-                <BurgerConstructorItem ingredientData={buns[1]} bunType="downBun" />
+                <BurgerConstructorItem ingredientData={buns[0]} bunType="downBun" />
             </div>
             </OrderContext.Provider>
 

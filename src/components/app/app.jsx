@@ -6,7 +6,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Api from "../../utils/api";
 import {IngredientContext} from "../../utils/contexts";
 
-const api = new Api();
+export const api = new Api();
 
 function App() {
 
@@ -30,7 +30,7 @@ function App() {
 
 
     return (
-        <div style={{overflow: 'hidden'}} >
+        <div className={styles.container} >
 
             {loading && <div>Данные загружаются...</div>}
             {error && (

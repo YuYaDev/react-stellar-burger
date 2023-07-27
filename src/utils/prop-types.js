@@ -8,5 +8,14 @@ export const ingredientPropType = PropTypes.shape({
     name: PropTypes.string.isRequired
 });
 
+export const orderPropType = PropTypes.shape({
+    order: PropTypes.arrayOf(PropTypes.shape({
+        order: PropTypes.number.isRequired,
+    })),
+    name: PropTypes.string.isRequired,
+    success: PropTypes.bool.isRequired
+});
+
+
 
 

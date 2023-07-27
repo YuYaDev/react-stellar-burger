@@ -23,15 +23,3 @@
 .ingredientImage {
     max-height: 40px;
 }
-
-.mainBunBorder {
-    border-radius: 40px;
-}
-
-.upBunBorder {
-    border-radius: 88px 88px 40px 40px;
-}
-
-.downBunBorder {
-    border-radius: 40px 40px 88px 88px;
-}

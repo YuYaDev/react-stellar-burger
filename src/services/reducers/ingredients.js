@@ -3,7 +3,7 @@ import {
   GET_MENU_INGREDIENTS_FAILED,
   GET_MENU_INGREDIENTS_SUCCESS,
 } from "../actions/ingredients";
-import {DELETE_MODULE_INGREDIENT, SET_MODULE_INGREDIENT} from "../actions";
+import {DELETE_MODULE_INGREDIENT, GET_ORDER_NUMBER, SET_MODULE_INGREDIENT, UPDATE_ORDER_NUMBER} from "../actions";
 
 // Исходное состояние
 const initialState = {
@@ -72,4 +72,27 @@ export const modalIngredientReducer = (state = initialState.currentIngredient, a
       return state;
     }
   }
+};
+
+export const modalOrderReducer = (state = initialState.currentOrder, action) => {
+  switch (action.type) {
+    case GET_ORDER_NUMBER: {
+      return {
+        ...state,
+        currentOrder: {
+          name: action.data.name,
+          number: action.data.order.number,
+        }
+      }
+    }
+    case UPDATE_ORDER_NUMBER: {
+      return {
+        ...state
+      }
+    }
+    default:
+      {
+        return state;
+      }
+    }
 };

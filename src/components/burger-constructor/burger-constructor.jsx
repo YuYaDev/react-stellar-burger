@@ -9,8 +9,13 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { IngredientContext, OrderContext } from "../../utils/contexts";
 import { api } from "../../utils/api";
+import { GET_ORDER_NUMBER} from "../../services/actions";
+import {useDispatch} from "react-redux";
 
 const BurgerConstructor = () => {
+
+  const dispatch = useDispatch();
+
   const ingredients = useContext(IngredientContext);
   // Получаем все булки, но выбираем одну, т.к. по заданию верхняя и нижняя должны быть одинаковы
   const buns = useMemo(
@@ -24,7 +29,6 @@ const BurgerConstructor = () => {
   );
 
   const [isModalVisible, setModalVisible] = useState(false);
-  const [modalData, setModalData] = useState({});
 
   const handleModalClose = () => {
     setModalVisible(false);
@@ -34,7 +38,10 @@ const BurgerConstructor = () => {
     api
       .createOrder(orderState.ingredientIDs)
       .then((data) => {
-        setModalData(data);
+        dispatch({
+          type: GET_ORDER_NUMBER,
+          data: data
+        })
         setModalVisible(true);
       })
       .catch((e) => console.log("Что-то пошло не так. Код ответа сервера:", e));
@@ -42,7 +49,7 @@ const BurgerConstructor = () => {
 
   const modal = (
     <Modal header="" onClose={handleModalClose}>
-      <OrderDetails orderData={modalData} />
+      <OrderDetails />
     </Modal>
   );
 

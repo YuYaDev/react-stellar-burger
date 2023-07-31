@@ -6,6 +6,7 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {useDispatch, useSelector} from "react-redux";
 import {getMenuIngredients} from "../../services/actions/ingredients";
+import {DELETE_MODULE_INGREDIENT, SET_MODULE_INGREDIENT} from "../../services/actions";
 
 const BurgerIngredients = () => {
 
@@ -37,19 +38,24 @@ const BurgerIngredients = () => {
 
   // Modals
   const [isModalVisible, setModalVisible] = useState(false);
-  const [modalData, setModalData] = useState({});
 
   const handleModalClose = () => {
+    dispatch({
+      type: DELETE_MODULE_INGREDIENT
+    })
     setModalVisible(false);
   };
 
-  const handleModalOpen = (newModalData) => {
-    setModalData(newModalData);
+  const handleModalOpen = (ingredient) => {
+    dispatch({
+      type: SET_MODULE_INGREDIENT,
+      data: ingredient
+    })
     setModalVisible(true);
   };
   const modal = (
     <Modal header="Детали ингредиента" onClose={handleModalClose}>
-      {modalData && <IngredientDetails ingredientData={modalData} />}
+      <IngredientDetails />
     </Modal>
   );
 

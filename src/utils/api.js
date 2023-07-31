@@ -15,10 +15,8 @@ export default class Api {
 
     getIngredients() {
         return request(`${PATH}/ingredients`)
-                .then((actualData) => {
-                    return actualData.data
-                })
     }
+
     createOrder(ingredientsIds) {
         return request(`${PATH}/orders`, {
             method: 'POST',

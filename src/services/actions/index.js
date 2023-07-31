@@ -1,0 +1,11 @@
+
+// BurgerConstructor
+export const GET_CONSTRUCTOR_INGREDIENTS = 'GET_CONSTRUCTOR_INGREDIENTS';
+
+// IngredientDetails module
+export const SET_MODULE_INGREDIENT = 'SET_MODULE_INGREDIENT';
+export const DELETE_MODULE_INGREDIENT = 'DELETE_MODULE_INGREDIENT';
+
+// OrderDetails module
+export const GET_ORDER_NUMBER = 'GET_ORDER_NUMBER';
+export const UPDATE_ORDER_NUMBER = 'UPDATE_ORDER_NUMBER';

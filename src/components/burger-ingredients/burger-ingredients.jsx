@@ -8,6 +8,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {getMenuIngredients} from "../../services/actions/ingredients";
 import {DELETE_MODULE_INGREDIENT, SET_MODULE_INGREDIENT} from "../../services/actions";
 
+
+
 const BurgerIngredients = () => {
 
   // Get ingredients from server
@@ -18,6 +20,7 @@ const BurgerIngredients = () => {
 
   useEffect(() => {
     dispatch(getMenuIngredients());
+
   }, []);
 
 
@@ -35,6 +38,35 @@ const BurgerIngredients = () => {
     () => ingredientList.filter((item) => item.type === "main"),
     [ingredientList]
   );
+
+  function animateTab(){
+    const navbarPosition = document.getElementById('nav').getBoundingClientRect().y;
+    const leafPosition = document.getElementById("leaf").getBoundingClientRect().y;
+    const saucePosition = document.getElementById("sauce").getBoundingClientRect().y;
+    const fillingPosition = document.getElementById("filling").getBoundingClientRect().y;
+
+    const distances = [
+      Math.abs(leafPosition - navbarPosition),
+      Math.abs(fillingPosition - navbarPosition),
+      Math.abs(saucePosition - navbarPosition)
+    ];
+
+    const min = Math.min(...distances);
+    const minIndex = distances.indexOf(min);
+    switch (minIndex) {
+      case 0:
+        setCurrent("leaf")
+        break;
+      case 1:
+        setCurrent("filling")
+        break;
+      case 2:
+        setCurrent("sauce")
+        break;
+      default:
+        setCurrent("leaf")
+    }
+  }
 
   // Modals
   const [isModalVisible, setModalVisible] = useState(false);
@@ -68,7 +100,7 @@ const BurgerIngredients = () => {
       )}
       {ingredientsRequest === false && ingredientList.length > 0 && (
           <>
-            <div className={`${styles.tabWrapper} mb-5`}>
+            <div className={`${styles.tabWrapper} mb-5`} id="nav">
             <Tab value="leaf" active={current === "leaf"} onClick={setCurrent}>
               Булки
             </Tab>
@@ -84,7 +116,7 @@ const BurgerIngredients = () => {
             </Tab>
           </div>
 
-          <div className={`${styles.container} custom-scroll`}>
+          <div className={`${styles.container} custom-scroll`} onScroll={animateTab}>
             <p className="text text_type_main-medium pt-5 pb-2" id="leaf">
               Булки
             </p>

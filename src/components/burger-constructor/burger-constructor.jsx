@@ -1,57 +1,49 @@
 import styles from "./burger-constructor.module.css";
-import { useState, useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import {useMemo, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
-import {
-  ConstructorElement,
-  CurrencyIcon,
-  Button
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import {Button, ConstructorElement, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 
-import { addItem, removeItem, resetItems } from "../../services/actions/burger-constructor";
-import { createOrder } from "../../services/actions/order";
-import { useDrop } from "react-dnd";
+import {addModuleIngredient, deleteModuleIngredient, resetModuleIngredients} from "../../services/actions/burger-constructor";
+import {createOrder} from "../../services/actions/order";
+import {useDrop} from "react-dnd";
 
 function BurgerConstructor() {
-  const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch();
+
+  const [modalVisible,setModalVisible] = useState(false);
 
   const addedItems = useSelector(state => state.addedIngredients);
-
-  const dispatch = useDispatch();
   const bun = addedItems.bun;
-  const fillingComponents = addedItems.ingredients;
+  const fillings = addedItems.ingredients;
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(item) {
       if (item.type === 'bun' && addedItems.bun !== null) {
-        dispatch(removeItem(addedItems.bun));
+        dispatch(deleteModuleIngredient(addedItems.bun));
       }
-      dispatch(addItem(item));
+      dispatch(addModuleIngredient(item));
     }
   });
 
   const totalPrice = useMemo(() => {
-
-    const fillingComponentsTotalPrice = fillingComponents.reduce((acc, item) => {
-      return acc + item.price;
-    }, 0);
-
     let bunPrice = 0;
-
     if (bun !== null) {
       bunPrice = bun.price;
     }
 
-    return fillingComponentsTotalPrice + bunPrice;
-  }, [bun, fillingComponents]);
+    return fillings.reduce((acc, item) => {
+      return acc + item.price;
+    }, 0) + bunPrice;
+  }, [bun, fillings]);
 
   const openModal = () => {
-    const orderData = fillingComponents.map(item => item._id);
+    const orderData = fillings.map(item => item._id);
 
     if (bun !== null) {
       orderData.push(bun._id);
@@ -62,7 +54,7 @@ function BurgerConstructor() {
   }
 
   const closeModal = () => {
-    dispatch(resetItems());
+    dispatch(resetModuleIngredients());
     setModalVisible(false);
   }
 
@@ -84,13 +76,13 @@ function BurgerConstructor() {
 
           <ul className={`${styles.burgerConstructor__list} custom-scroll`}>
             {
-              fillingComponents.map((item, index) => {
+              fillings.map((item, index) => {
                 return (
                     <BurgerConstructorItem
                         key={item.key}
                         item={item}
                         index={index}
-                        removeItem={removeItem}
+                        removeItem={deleteModuleIngredient}
                     />
                 )
               })
@@ -114,7 +106,7 @@ function BurgerConstructor() {
               <CurrencyIcon type="primary" />
             </div>
             {
-              bun === null || fillingComponents.length === 0 ?
+              bun === null || fillings.length === 0 ?
                   <Button disabled htmlType="button" type="primary" size="large">
                     Оформить заказ
                   </Button> :
@@ -127,9 +119,7 @@ function BurgerConstructor() {
         </div>
 
         <Modal modalActive={modalVisible} closeModal={closeModal}>
-          {
-                    <OrderDetails />
-          }
+          <OrderDetails />
         </Modal>
 
       </section>

@@ -10,7 +10,7 @@ import {
 import { useDispatch } from "react-redux";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { moveItem } from "../../services/actions/burger-constructor";
+import { moveModuleIngredient } from "../../services/actions/burger-constructor";
 
 function BurgerConstructorItem(props) {
     const { item, index, removeItem } = props;
@@ -50,7 +50,7 @@ function BurgerConstructorItem(props) {
             if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
                 return;
             }
-            dispatch(moveItem({dragIndex, hoverIndex}));
+            dispatch(moveModuleIngredient({dragIndex, hoverIndex}));
             item.index = hoverIndex;
         }
     });

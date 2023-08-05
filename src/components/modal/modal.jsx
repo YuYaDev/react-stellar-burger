@@ -12,22 +12,19 @@ function Modal(props) {
     const { modalActive, closeModal } = props;
 
     useEffect(() => {
-
         const handleEscClose = (evt) => {
             if (modalActive && evt.key === 'Escape') {
                 closeModal();
             }
         }
-
         document.addEventListener('keydown', handleEscClose);
-
         return () => {
             document.removeEventListener('keydown', handleEscClose);
         }
 
     }, [modalActive, closeModal]);
 
-    const handleOverlayClickClose = (evt) => {
+    const handleOverlayClose = (evt) => {
         if (modalActive && evt.target.dataset.element === 'overlay') {
             closeModal();
         }
@@ -37,7 +34,7 @@ function Modal(props) {
         (
             <>
                 <ModalOverlay modalActive={modalActive} />
-                <section onClick={handleOverlayClickClose} data-element="overlay" className={modalActive ? `${styles.modal} ${styles.modal_active}` : styles.modal}>
+                <section onClick={handleOverlayClose} data-element="overlay" className={modalActive ? `${styles.modal} ${styles.modal_active}` : styles.modal}>
                     <div className={styles.modal__container}>
                         {props.children}
                         <button onClick={closeModal} className={styles.modal_close} type="button">

@@ -16,9 +16,10 @@ import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 
-function BurgerIngredient(props) {
+function Ingredient(props) {
     const { item, openModal } = props;
     const [count, setCount] = useState(0);
+
     const addedItem = { ...item, key: uuidv4()}
     const addedItems = useSelector(state => state.addedIngredients);
 
@@ -28,21 +29,15 @@ function BurgerIngredient(props) {
     });
 
     useEffect(() => {
-        if (item.type === 'bun' && addedItems.bun !== null && item._id === addedItems.bun._id) {
-            setCount(1);
-        }
-
-        if (item.type === 'bun' && addedItems.bun !== null && item._id !== addedItems.bun._id) {
-            setCount(0);
-        }
-
-        if (item.type === 'bun' && addedItems.bun === null) {
-            setCount(0);
-        }
-
         if (item.type !== 'bun') {
             return setCount(addedItems.ingredients.filter(ingredient => ingredient._id === item._id).length);
-        };
+        } else if (item.type === 'bun' && addedItems.bun !== null && item._id === addedItems.bun._id) {
+            setCount(1);
+        } else if (item.type === 'bun' && addedItems.bun !== null && item._id !== addedItems.bun._id) {
+            setCount(0);
+        } else if (item.type === 'bun' && addedItems.bun === null) {
+            setCount(0);
+        }
     }, [addedItems, item._id, item.type]);
 
     return (
@@ -63,9 +58,9 @@ function BurgerIngredient(props) {
     );
 }
 
-BurgerIngredient.propTypes = {
+Ingredient.propTypes = {
     item: ingredientPropType.isRequired,
     openModal: propTypes.func.isRequired
 }
 
-export default BurgerIngredient;
+export default Ingredient;

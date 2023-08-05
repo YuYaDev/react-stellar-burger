@@ -10,10 +10,6 @@
     opacity: .6;
 }
 
-.ingredients__item:active {
-    opacity: .3;
-}
-
 .ingredients__price {
     display: flex;
     justify-content: center;

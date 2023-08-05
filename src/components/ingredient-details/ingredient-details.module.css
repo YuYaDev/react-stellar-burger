@@ -1,22 +1,22 @@
-.container {
+.ingredient__container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.image{
+.ingredient__image{
     width: 480px;
 }
 
-.nutritionContainer {
+.nutrition__container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 20px;
-    padding: 16px 0 0 0;
+    padding: 16px;
     margin: 0;
 }
 
-.nutritionValue {
+.nutrition__value {
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -1,58 +1,92 @@
-import styles from "../burger-constructor-item/burger-constructor-item.module.css";
+import styles from "./burger-constructor-item.module.css";
+import propTypes from "prop-types";
+import { ingredientPropType } from "../../utils/prop-types";
+
 import {
     ConstructorElement,
     DragIcon
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import React, {useContext, useEffect} from "react";
-import PropTypes from "prop-types";
-import {ingredientPropType} from "../../utils/prop-types";
-import {OrderContext} from "../../utils/contexts";
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
-const BurgerConstructorItem = ({ ingredientData, bunType = "mainBun"}) => {
+import { useDispatch } from "react-redux";
+import { useRef } from "react";
+import { useDrag, useDrop } from "react-dnd";
+import { moveItem } from "../../services/actions/burger-constructor";
 
-    const {orderDispatcher} = useContext(OrderContext);
-    useEffect(() => {
-        orderDispatcher({type: 'add', price: ingredientData.price, ingredientId: ingredientData._id});
-    }, [ingredientData, orderDispatcher]);
+function BurgerConstructorItem(props) {
+    const { item, index, removeItem } = props;
+    const dispatch = useDispatch();
+    const ref = useRef(null);
 
+    const [, dropTarget] = useDrop({
+        accept: 'constructor ingredient',
+        hover(item, monitor) {
+            if (!ref.current) {
+                return
+            }
+
+            const dragIndex = item.index;
+            const hoverIndex = index;
+
+            // Don't replace items with themselves
+            if (dragIndex === hoverIndex) {
+                return;
+            }
+            // Determine rectangle on screen
+            const hoverBoundingRect = ref.current?.getBoundingClientRect();
+            // Get vertical middle
+            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+            // Determine mouse position
+            const clientOffset = monitor.getClientOffset();
+            // Get pixels to the top
+            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+            // Only perform the move when the mouse has crossed half of the items height
+            // When dragging downwards, only move when the cursor is below 50%
+            // When dragging upwards, only move when the cursor is above 50%
+            // Dragging downwards
+            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+                return;
+            }
+            // Dragging upwards
+            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+                return;
+            }
+            dispatch(moveItem({dragIndex, hoverIndex}));
+            item.index = hoverIndex;
+        }
+    });
+
+    const [{isDragging}, dragItem] = useDrag({
+        type: 'constructor ingredient',
+        item: () => {
+            return {item: item.key, index};
+        },
+        collect: monitor => ({
+            isDragging: monitor.isDragging()
+        })
+    });
+
+    const opacity = isDragging ? 0 : 1;
+    dragItem(dropTarget(ref));
 
     return (
-        <div className={`${styles.position}`}>
-            { bunType === "mainBun" ?  <DragIcon type="primary" /> : <div></div>}
-
-            { bunType === "upBun" &&
-                <ConstructorElement
-                    type="top"
-                    isLocked={true}
-                    text={`${ingredientData.name} (верх)`}
-                    price={ingredientData.price}
-                    thumbnail={ingredientData.image}
-                />
-            }
-            { bunType === "mainBun" &&
-                <ConstructorElement
-                    text={ingredientData.name}
-                    price={ingredientData.price}
-                    thumbnail={ingredientData.image}
-                />
-            }
-            { bunType === "downBun" &&
-                <ConstructorElement
-                    type="bottom"
-                    isLocked={true}
-                    text={`${ingredientData.name} (низ)`}
-                    price={ingredientData.price}
-                    thumbnail={ingredientData.image}
-                />
-            }
-
-        </div>
+        <li ref={ref} className={styles.burgerConstructor__item} key={item.key} style={{opacity}} >
+            <DragIcon type="primary" />
+            <ConstructorElement
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+                handleClose={() => {
+                    dispatch(removeItem(item));
+                }}
+            />
+        </li>
     );
-};
+}
 
 BurgerConstructorItem.propTypes = {
-    ingredientData: ingredientPropType.isRequired,
-    bunType: PropTypes.string
-}
+    item: ingredientPropType.isRequired,
+    index: propTypes.number.isRequired,
+    removeItem: propTypes.func.isRequired
+};
 
 export default BurgerConstructorItem;

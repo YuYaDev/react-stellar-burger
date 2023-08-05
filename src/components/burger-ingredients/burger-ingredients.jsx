@@ -1,169 +1,129 @@
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import React, { useEffect, useMemo, useState} from "react";
-import Ingredient from "../ingredient/ingredient";
+
+import {
+  useState,
+  useEffect,
+  useMemo
+} from "react";
+
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import {useDispatch, useSelector} from "react-redux";
-import {getMenuIngredients} from "../../services/actions/ingredients";
-import {DELETE_MODULE_INGREDIENT, SET_MODULE_INGREDIENT} from "../../services/actions";
+import BurgerIngredient from "../ingredient/ingredient";
+import { useDispatch, useSelector } from "react-redux";
+import { getItems } from "../../services/actions/ingredients";
+import { showItem, hideItem } from "../../services/actions/ingredient";
+import { useInView } from "react-intersection-observer";
 
-
-
-const BurgerIngredients = () => {
-
-  // Get ingredients from server
-  const { ingredientsRequest, ingredientsFailed, ingredientList }  = useSelector(
-      (store) => store.ingredients
-  );
+function BurgerIngredients() {
+  const { items  } = useSelector(state => state.ingredients);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMenuIngredients());
+    dispatch(getItems());
+  }, [dispatch]);
 
+  const Tabs = useMemo(() => {
+    return {
+      BUNS: 'buns',
+      SAUCES: 'sauces',
+      MAINS: 'mains'
+    };
   }, []);
 
+  const [current, setCurrent] = useState(Tabs.BUNS);
 
-  // Parse ingredients
-  const [current, setCurrent] = React.useState("leaf");
-  const bunList = useMemo(
-    () => ingredientList.filter((item) => item.type === "bun"),
-    [ingredientList]
-  );
-  const sauceList = useMemo(
-    () => ingredientList.filter((item) => item.type === "sauce"),
-    [ingredientList]
-  );
-  const mainList = useMemo(
-    () => ingredientList.filter((item) => item.type === "main"),
-    [ingredientList]
-  );
+  const { ref: refBuns, inView: inViewBuns } = useInView({ threshold: 0 });
+  const { ref: refSauces, inView: inViewSauces } = useInView({ threshold: 0 });
+  const { ref: refMains, inView: inViewMains } = useInView({ threshold: 0 });
 
-  function animateTab(){
-    const navbarPosition = document.getElementById('nav').getBoundingClientRect().y;
-    const leafPosition = document.getElementById("leaf").getBoundingClientRect().y;
-    const saucePosition = document.getElementById("sauce").getBoundingClientRect().y;
-    const fillingPosition = document.getElementById("filling").getBoundingClientRect().y;
-
-    const distances = [
-      Math.abs(leafPosition - navbarPosition),
-      Math.abs(fillingPosition - navbarPosition),
-      Math.abs(saucePosition - navbarPosition)
-    ];
-
-    const min = Math.min(...distances);
-    const minIndex = distances.indexOf(min);
-    switch (minIndex) {
-      case 0:
-        setCurrent("leaf")
-        break;
-      case 1:
-        setCurrent("filling")
-        break;
-      case 2:
-        setCurrent("sauce")
-        break;
-      default:
-        setCurrent("leaf")
+  useEffect(() => {
+    if (inViewBuns) {
+      setCurrent(Tabs.BUNS);
     }
-  }
+    if (inViewSauces) {
+      setCurrent(Tabs.SAUCES)
+    }
+    if (inViewMains) {
+      setCurrent(Tabs.MAINS)
+    }
+  }, [inViewBuns, inViewSauces, inViewMains]);
 
-  // Modals
-  const [isModalVisible, setModalVisible] = useState(false);
-
-  const handleModalClose = () => {
-    dispatch({
-      type: DELETE_MODULE_INGREDIENT
-    })
-    setModalVisible(false);
+  const handleTabClick = (e) => {
+    setCurrent(e);
   };
 
-  const handleModalOpen = (ingredient) => {
-    dispatch({
-      type: SET_MODULE_INGREDIENT,
-      data: ingredient
-    })
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const buns = items.filter(item => item.type === 'bun');
+  const sauces = items.filter(item => item.type === 'sauce');
+  const mains = items.filter(item => item.type === 'main');
+
+  const openModal = (element) => {
+    dispatch(showItem(element));
     setModalVisible(true);
   };
-  const modal = (
-    <Modal header="Детали ингредиента" onClose={handleModalClose}>
-      <IngredientDetails />
-    </Modal>
-  );
+
+  const closeModal = () => {
+    setModalVisible(false);
+    // setTimeout for smooth popup closing,
+    // otherwise content will disappear before popup will close
+    setTimeout(() => {
+      dispatch(hideItem());
+    }, 450);
+  }
 
   return (
-    <>
-      {isModalVisible && modal}
-      {ingredientsRequest && <p>Загрузка...</p>}
-      {ingredientsRequest === false && ingredientsFailed && (
-          <p>Произошла ошибка при получении данных</p>
-      )}
-      {ingredientsRequest === false && ingredientList.length > 0 && (
-          <>
-            <div className={`${styles.tabWrapper} mb-5`} id="nav">
-            <Tab value="leaf" active={current === "leaf"} onClick={setCurrent}>
-              Булки
-            </Tab>
-            <Tab value="sauce" active={current === "sauce"} onClick={setCurrent}>
-              Соусы
-            </Tab>
-            <Tab
-              value="filling"
-              active={current === "filling"}
-              onClick={setCurrent}
-            >
-              Начинки
-            </Tab>
-          </div>
+      <section className={styles.ingredients}>
 
-          <div className={`${styles.container} custom-scroll`} onScroll={animateTab}>
-            <p className="text text_type_main-medium pt-5 pb-2" id="leaf">
-              Булки
-            </p>
-            <div className={`${styles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
-              {bunList.map((item, index) => {
-                return (
-                  <Ingredient
-                    ingredientData={item}
-                    key={index}
-                    openModal={handleModalOpen}
-                  />
-                );
-              })}
-            </div>
+        <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
 
-            <p className="text text_type_main-medium pt-5 pb-2" id="sauce">
-              Соусы
-            </p>
-            <div className={`${styles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
-              {sauceList.map((item, index) => {
-                return (
-                  <Ingredient
-                    ingredientData={item}
-                    key={index}
-                    openModal={handleModalOpen}
-                  />
-                );
-              })}
-            </div>
+        <div className={`${styles.ingredients__tabs} mt-5`}>
+          <Tab value={Tabs.BUNS} active={current === Tabs.BUNS} onClick={handleTabClick}>
+            Булки
+          </Tab>
+          <Tab value={Tabs.SAUCES} active={current === Tabs.SAUCES} onClick={handleTabClick}>
+            Соусы
+          </Tab>
+          <Tab value={Tabs.MAINS} active={current === Tabs.MAINS} onClick={handleTabClick}>
+            Начинки
+          </Tab>
+        </div>
 
-            <p className="text text_type_main-medium pt-5 pb-2" id="filling">
-              Начинки
-            </p>
-            <div className={`${styles.gridWrapper} mb-5 ml-4 mr-4 mt-4`}>
-              {mainList.map((item, index) => {
-                return (
-                  <Ingredient
-                    ingredientData={item}
-                    key={index}
-                    openModal={handleModalOpen}
-                  />
-                );
-              })}
-            </div>
-        </div></>)}
-    </>
+        {
+                  <ul className={`${styles.ingredients__types} mt-10 custom-scroll`}>
+
+                    <li ref={refBuns}>
+                      <p className="text text_type_main-medium">Булки</p>
+                      <ul className={`${styles.ingredients__items} pt-6 pr-4 pl-4`}>
+                        {buns.map(item => <BurgerIngredient key={item._id} item={item} openModal={() => openModal(item)} />)}
+                      </ul>
+                    </li>
+
+                    <li ref={refSauces} className="mt-10">
+                      <p className="text text_type_main-medium">Соусы</p>
+                      <ul className={`${styles.ingredients__items} pt-6 pr-4 pl-4`}>
+                        {sauces.map(item => <BurgerIngredient key={item._id} item={item} openModal={() => openModal(item)} />)}
+                      </ul>
+                    </li>
+
+                    <li ref={refMains} className="mt-10">
+                      <p className="text text_type_main-medium">Начинки</p>
+                      <ul className={`${styles.ingredients__items} pt-6 pr-4 pl-4`}>
+                        {mains.map(item => <BurgerIngredient key={item._id} item={item} openModal={() => openModal(item)} />)}
+                      </ul>
+                    </li>
+
+                  </ul>
+        }
+
+        <Modal modalActive={modalVisible} closeModal={closeModal}>
+          <IngredientDetails />
+        </Modal>
+
+      </section>
   );
-};
+}
 
 export default BurgerIngredients;

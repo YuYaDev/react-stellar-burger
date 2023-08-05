@@ -1,40 +1,50 @@
-import ReactDOM from 'react-dom';
+import styles from "./modal.module.css";
+import ReactDOM from "react-dom";
+import { useEffect } from "react";
+import propTypes from "prop-types";
+
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import styles from "../modal/modal.module.css";
-import {CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from "prop-types";
-import {useEffect} from "react";
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const modalRoot = document.getElementById("react-modals");
+const modalRoot = document.getElementById('modal-root');
 
-const Modal = ({header, children, onClose}) => {
+function Modal(props) {
+    const { modalActive, closeModal } = props;
 
     useEffect(() => {
-        function escFunction(event){
-            if (event.key === "Escape") {
-                onClose();
+
+        const handleEscClose = (evt) => {
+            if (modalActive && evt.key === 'Escape') {
+                closeModal();
             }
         }
 
-        document.addEventListener("keydown", escFunction);
-        return() => { document.removeEventListener("keydown", escFunction);}
+        document.addEventListener('keydown', handleEscClose);
 
-    }, []);
+        return () => {
+            document.removeEventListener('keydown', handleEscClose);
+        }
 
+    }, [modalActive, closeModal]);
+
+    const handleOverlayClickClose = (evt) => {
+        if (modalActive && evt.target.dataset.element === 'overlay') {
+            closeModal();
+        }
+    }
 
     return ReactDOM.createPortal(
         (
             <>
-               <ModalOverlay onClose={onClose}/>
-                <div className={`${styles.container} pt-4 pl-4 pr-4 pb-15`}>
-                    <div className={`${styles.header} p-4 m-2`}>
-                        <p className="text text_type_main-large">{header}</p>
-                        <button className={styles.closeIcon} onClick={onClose}>
+                <ModalOverlay modalActive={modalActive} />
+                <section onClick={handleOverlayClickClose} data-element="overlay" className={modalActive ? `${styles.modal} ${styles.modal_active}` : styles.modal}>
+                    <div className={styles.modal__container}>
+                        {props.children}
+                        <button onClick={closeModal} className={styles.modal_close} type="button">
                             <CloseIcon type="primary" />
                         </button>
                     </div>
-                    {children}
-                </div>
+                </section>
             </>
         ),
         modalRoot
@@ -42,8 +52,9 @@ const Modal = ({header, children, onClose}) => {
 }
 
 Modal.propTypes = {
-    header: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired
+    modalActive: propTypes.bool.isRequired,
+    closeModal: propTypes.func.isRequired,
+    children: propTypes.element.isRequired
 }
 
 export default Modal;

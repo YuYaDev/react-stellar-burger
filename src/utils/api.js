@@ -1,25 +1,29 @@
-const PATH = "https://norma.nomoreparties.space/api";
-
-function checkResponse(res) {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка ${res.status}`);
-}
-
-function request(url, options) {
-  return fetch(url, options).then(checkResponse);
-}
+import {baseUrl, headers} from "./constants";
 
 export default class Api {
+  constructor({baseUrl, headers}) {
+    this._baseUrl = baseUrl
+    this._headers = headers
+  }
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка ${res.status}`);
+  }
+
+  _request(url, options) {
+    return fetch(url, options).then(this._checkResponse);
+  }
+
   getIngredients() {
-    return request(`${PATH}/ingredients`);
+    return this._request(`${this._baseUrl}/ingredients`);
   }
 
   createOrder(ingredientsIds) {
-    return request(`${PATH}/orders`, {
+    return this._request(`${this._baseUrl}/orders`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: this._headers,
       body: JSON.stringify({
         ingredients: ingredientsIds,
       }),
@@ -27,4 +31,4 @@ export default class Api {
   }
 }
 
-export const api = new Api();
+export const api = new Api({baseUrl, headers});

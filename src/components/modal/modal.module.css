@@ -1,21 +1,44 @@
-.container {
-    width: 718px;
-    position:absolute;
-    top: calc(50% - 720px / 2);
-    left: calc(50% - 718px / 2);
+.modal__container {
+    width: 720px;
     background-color: #1C1C21;
+    border: 1px solid rgba(76, 76, 255, 0.2);
     border-radius: 40px;
-    box-sizing: border-box;
-}
-
-.closeIcon {
-    background-color: transparent;
-    border-color: transparent;
-    cursor: pointer;
-}
-
-.header {
+    position: relative;
     display: flex;
+    flex-direction: column;
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .5s linear;
+}
+
+.modal_active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal_close {
+    background-color: transparent;
+    border: none;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 44px;
+    right: 24px;
+    cursor: pointer;
+    transition: all .2s linear;
+}
+
+.modal_close:hover {
+    opacity: .6;
 }

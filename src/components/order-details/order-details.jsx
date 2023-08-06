@@ -1,22 +1,20 @@
-import styles from "../order-details/order-details.module.css";
-import doneImage from "../../images/done.svg"
-import PropTypes from "prop-types";
+import styles from "./order-details.module.css";
+import orderConfirm from "../../images/done.svg";
+import { useSelector } from "react-redux";
 
-const OrderDetails  = ({orderData}) => {
+function OrderDetails() {
+
+    const orderNumber = useSelector(state => state.order.orderId);
+
     return (
-        <div className={styles.container}>
-            <p className={`text text_type_digits-large `}>{orderData.order.number}</p>
-            <p className={`text text_type_main-medium`}>идентификатор заказа</p>
-            <img className={`pt-15 pb-15`} src={doneImage} alt="Done" />
-            <p className={`text text_type_main-default`}>Ваш заказ начали готовить</p>
-            <p className={`text text_type_main-default text_color_inactive pb-15`}>Дождитесь готовности на орбитальной станции</p>
+        <div className={`${styles.order__container} pt-30 pb-30`}>
+            <p className="text text_type_digits-large">{orderNumber}</p>
+            <h2 className="text text_type_main-medium mt-8">идентификатор заказа</h2>
+            <img className={`${styles.order__image} mt-15`} src={orderConfirm} alt="заказ принят" />
+            <p className="text text_type_main-default mt-15">Ваш заказ начали готовить</p>
+            <p className="text text_type_main-default text_color_inactive mt-2">Дождитесь готовности на орбитальной станции</p>
         </div>
     );
 }
 
-OrderDetails.propTypes = {
-    // OrderPropType или undefined в случае инициализации modalData в BurgerConstructor
-    orderData: PropTypes.any.isRequired
-}
-
-export default OrderDetails ;
+export default OrderDetails;

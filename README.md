@@ -15,6 +15,7 @@
 ## Используемые технологии
 
 * React
+* Redux
 * JavaScript
 * HTML5
 * CSS

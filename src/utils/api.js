@@ -29,6 +29,27 @@ export default class Api {
       }),
     });
   }
+
+  restorePassword(email) {
+    return this._request(`${this._baseUrl}/password-reset`,{
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+  }
+
+  updatePassword(password) {
+    return this._request(`${this._baseUrl}/password-reset/reset`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        password: password,
+        //token: token
+      }),
+    });
+  }
 }
 
 export const api = new Api({baseUrl, headers});

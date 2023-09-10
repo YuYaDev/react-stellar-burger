@@ -2,13 +2,20 @@ import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-deve
 import {useState} from "react";
 import styles from './profile.module.css'
 import {Link, NavLink} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {updateUserInfo} from "../services/actions/auth";
+import {getCookie} from "../utils/cookie";
 
 function ProfilePage() {
     const [form, setValue] = useState({ email: '', password: '' });
+    const { userName, userEmail, accessToken } = useSelector(state => state.authentication)
 
+    const dispatch = useDispatch();
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
+        dispatch(updateUserInfo(form, accessToken))
     };
+
     return (
         <div className={styles.container}>
             <div className={styles.menu}>
@@ -28,13 +35,13 @@ function ProfilePage() {
                     placeholder={'Имя'}
                     onChange={onChange}
                     icon={'EditIcon'}
-                    value={form.name}
+                    value={form.name || userName}
                     name={'name'}
                     size={'default'}
                 />
                 <EmailInput
                     onChange={onChange}
-                    value={form.email}
+                    value={form.email || userEmail}
                     name={'email'}
                     placeholder="Логин"
                     isIcon={true}

@@ -9,6 +9,7 @@ export default class Api {
     if (res.ok) {
       return res.json();
     }
+    console.log(res.status)
     return Promise.reject(`Ошибка ${res.status}`);
   }
 
@@ -40,13 +41,70 @@ export default class Api {
     });
   }
 
-  updatePassword(password) {
+  updatePassword(data) {
     return this._request(`${this._baseUrl}/password-reset/reset`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        password: password,
-        //token: token
+        password: data.password,
+        token: data.token
+      }),
+    });
+  }
+  register(userData){
+    return this._request(`${this._baseUrl}/auth/register`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        email: userData.email,
+        password: userData.password,
+        name: userData.name,
+      }),
+    });
+  }
+  login(userData){
+    return this._request(`${this._baseUrl}/auth/login`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        email: userData.email,
+        password: userData.password,
+      }),
+    });
+  }
+  logout(token){
+    return this._request(`${this._baseUrl}/auth/logout`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        token: token
+      }),
+    });
+  }
+  updateToken(token){
+    return this._request(`${this._baseUrl}/auth/token`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        token: token,
+      }),
+    });
+  }
+  getUserInfo(token){
+    let authHeaders = JSON.parse(JSON.stringify(this._headers))
+    authHeaders.Authorization = token;
+    return this._request(`${this._baseUrl}/auth/user`);
+  }
+  updateUserInfo(data, token){
+    let authHeaders = JSON.parse(JSON.stringify(this._headers))
+    authHeaders.Authorization = token;
+    return this._request(`${this._baseUrl}/auth/user`, {
+      method: "PATCH",
+      headers: authHeaders,
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password,
+        name: data.name,
       }),
     });
   }

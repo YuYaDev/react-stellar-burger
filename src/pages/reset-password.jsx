@@ -1,22 +1,31 @@
 import styles from "./auth.module.css";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link} from "react-router-dom";
+import {Link, Navigate, useLocation } from "react-router-dom";
 import {useState} from "react";
 import {api} from "../utils/api";
+import {useSelector} from "react-redux";
 
 function ResetPasswordPage() {
     const [form, setValue] = useState({ email: '', password: '' });
+    const { accessToken, isAuthenticated } = useSelector(state => state.authentication)
+
+    const location = useLocation();
+    const fromForgotPassword = (location.state?.from?.pathname === '/forgot-password')
 
     const onChange = e => {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
     const onSubmit = e => {
         e.preventDefault();
-        api.updatePassword(form.password)
-            .then((res) => console.log(res))
+        api.updatePassword({password: form.password, token: accessToken})
+            .then((res) => console.log("Пароль обновлен"))
     }
 
     return (
+    <>
+        { isAuthenticated && <Navigate replace to="/" />}
+        { !fromForgotPassword && <Navigate replace to="/forgot-password" />}
+        {
         <div className={styles.container}>
             <form className={styles.formContainer} onSubmit={onSubmit}>
                 <p className="text text_type_main-medium">Восстановление пароля</p>
@@ -43,6 +52,8 @@ function ResetPasswordPage() {
             </form>
             <p className="text text_type_main-default text_color_inactive pt-4 mt-1">Вспомнили пароль? <Link className={styles.link} to="/login">Войти</Link></p>
         </div>
+        }
+    </>
     );
 }
 export default ResetPasswordPage;

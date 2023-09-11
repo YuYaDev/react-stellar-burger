@@ -1,6 +1,6 @@
 import {Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app-header.module.css';
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 function AppHeader() {
     return (
@@ -26,7 +26,7 @@ function AppHeader() {
                         )}
                     </NavLink>
                 </li>
-                <li><Logo /></li>
+                <li><Link to={'/'}><Logo /></Link></li>
                 <li>
                     <NavLink to="/profile" className={({ isActive }) => isActive ? styles.activeLink : styles.link}>
                     {({ isActive }) => (

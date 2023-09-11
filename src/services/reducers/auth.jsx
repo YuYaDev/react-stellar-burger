@@ -70,29 +70,6 @@ export const authReducer = (state = initialState, action) => {
                 userEmail: action.payload.user.email,
             };
         }
-        case UPDATE_TOKEN_REQUEST: {
-            return {
-                ...state,
-                tokenRequest: true
-            };
-        }
-        case UPDATE_TOKEN_REQUEST_SUCCESS: {
-            return {
-                ...state,
-                tokenRequest: false,
-                tokenRequestFailed: false,
-                isAuthenticated: true,
-                accessToken: action.payload.accessToken,
-            };
-        }
-        case UPDATE_TOKEN_REQUEST_FAILED: {
-            return {
-                ...state,
-                tokenRequest: false,
-                tokenRequestFailed: true,
-                isAuthenticated: false,
-            };
-        }
         case LOGOUT_REQUEST: {
             return {
                 ...state,

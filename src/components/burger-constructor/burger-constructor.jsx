@@ -12,15 +12,16 @@ import {addModuleIngredient, deleteModuleIngredient, resetModuleIngredients} fro
 import {createOrder} from "../../services/actions/order";
 import {useDrop} from "react-dnd";
 import {useNavigate} from "react-router-dom";
+import {getAddedIngredient, getAuthenticationInfo} from "../../utils/store";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
 
   const [modalVisible,setModalVisible] = useState(false);
-  const { isAuthenticated } = useSelector(state => state.authentication)
+  const { isAuthenticated } = useSelector(getAuthenticationInfo)
   const navigate = useNavigate();
 
-  const addedItems = useSelector(state => state.addedIngredients);
+  const addedItems = useSelector(getAddedIngredient);
   const bun = addedItems.bun;
   const fillings = addedItems.ingredients;
 

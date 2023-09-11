@@ -1,5 +1,4 @@
 import styles from "./ingredient.module.css";
-import propTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
 
 import {
@@ -15,13 +14,14 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
+import {getAddedIngredient} from "../../utils/store";
 
 function Ingredient(props) {
-    const { item, openModal } = props;
+    const { item } = props;
     const [count, setCount] = useState(0);
 
     const addedItem = { ...item, key: uuidv4()}
-    const addedItems = useSelector(state => state.addedIngredients);
+    const addedItems = useSelector(getAddedIngredient);
 
     const [, dragRef] = useDrag({
         type: 'ingredient',
@@ -41,10 +41,7 @@ function Ingredient(props) {
     }, [addedItems, item._id, item.type]);
 
     return (
-        <li ref={dragRef} key={item._id} className={styles.ingredients__item}
-            onClick={
-                () => openModal(addedItem)
-            }>
+        <li ref={dragRef} key={item._id} className={styles.ingredients__item}>
             <img src={item.image} alt={item.name} className="pr-4 pl-4"/>
             <div className={`${styles.ingredients__price} mt-1`}>
                 <p className="text text_type_digits-default">{item.price}</p>
@@ -59,8 +56,7 @@ function Ingredient(props) {
 }
 
 Ingredient.propTypes = {
-    item: ingredientPropType.isRequired,
-    openModal: propTypes.func.isRequired
+    item: ingredientPropType.isRequired
 }
 
 export default Ingredient;

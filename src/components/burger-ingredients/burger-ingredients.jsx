@@ -13,96 +13,73 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
 import { showMenuIngredient, hideMenuIngredient } from "../../services/actions/ingredient";
 import {Link, useLocation, useNavigate} from "react-router-dom";
+import {getIngredientList} from "../../utils/store";
 
 function BurgerIngredients() {
-  const { items } = useSelector(state => state.ingredients);
+  const items = useSelector(getIngredientList);
   let location = useLocation();
-  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
 
-  const [modalVisible, setModalVisible] = useState(false);
-
   const buns = items.filter(item => item.type === 'bun');
   const sauces = items.filter(item => item.type === 'sauce');
   const mains = items.filter(item => item.type === 'main');
 
-  const openModal = (element) => {
-    dispatch(showMenuIngredient(element));
-    setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
-    setTimeout(() => {
-      dispatch(hideMenuIngredient());
-    }, 450);
-    navigate(-1);
-  }
-
   return (
       <section className={styles.ingredients}>
-
         <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
-                  <ul className={`${styles.ingredients__types} mt-10 custom-scroll`}>
-                    <li >
-                      <p className="text text_type_main-medium">Булки</p>
-                      <ul className={`${styles.ingredients__items} pt-6 pr-4 pl-4`}>
-                        {buns.map(item =>
-                            <Link
-                                className={styles.link}
-                                key={item._id}
-                                to={`/ingredients/${item._id}`}
-                                state={{ background: location }}
-                            >
-                              <Ingredient key={item._id} item={item} openModal={() => openModal(item)} />
-                            </Link>
-                        )}
-                      </ul>
-                    </li>
+          <ul className={`${styles.ingredients__types} mt-10 custom-scroll`}>
+            <li >
+              <p className="text text_type_main-medium">Булки</p>
+              <ul className={`${styles.ingredients__items} pt-6 pr-4 pl-4`}>
+                {buns.map(item =>
+                    <Link
+                        className={styles.link}
+                        key={item._id}
+                        to={`/ingredients/${item._id}`}
+                        state={{ backgroundLocation: location }}
+                    >
+                      <Ingredient key={item._id} item={item} />
+                    </Link>
+                )}
+              </ul>
+            </li>
 
-                    <li  className="mt-10">
-                      <p className="text text_type_main-medium">Соусы</p>
-                      <ul className={`${styles.ingredients__items} pt-6 pr-4 pl-4`}>
-                        {sauces.map(item =>
-                            <Link
-                                className={styles.link}
-                                key={item._id}
-                                to={`/ingredients/${item._id}`}
-                                state={{ background: location }}
-                            >
-                              <Ingredient key={item._id} item={item} openModal={() => openModal(item)} />
-                            </Link>
-                        )}
-                      </ul>
-                    </li>
+            <li  className="mt-10">
+              <p className="text text_type_main-medium">Соусы</p>
+              <ul className={`${styles.ingredients__items} pt-6 pr-4 pl-4`}>
+                {sauces.map(item =>
+                    <Link
+                        className={styles.link}
+                        key={item._id}
+                        to={`/ingredients/${item._id}`}
+                        state={{ backgroundLocation: location }}
+                    >
+                      <Ingredient key={item._id} item={item}  />
+                    </Link>
+                )}
+              </ul>
+            </li>
 
-                    <li  className="mt-10">
-                      <p className="text text_type_main-medium">Начинки</p>
-                      <ul className={`${styles.ingredients__items} pt-6 pr-4 pl-4`}>
-                        {mains.map(item =>
-                            <Link
-                                className={styles.link}
-                                key={item._id}
-                                to={`/ingredients/${item._id}`}
-                                state={{ background: location }}
-                            >
-                            <Ingredient key={item._id} item={item} openModal={() => openModal(item)} />
-                            </Link>
-                        )}
-                      </ul>
-                    </li>
-
-                  </ul>
-
-
-        <Modal modalActive={modalVisible} closeModal={closeModal}>
-          <IngredientDetails />
-        </Modal>
-
+            <li  className="mt-10">
+              <p className="text text_type_main-medium">Начинки</p>
+              <ul className={`${styles.ingredients__items} pt-6 pr-4 pl-4`}>
+                {mains.map(item =>
+                    <Link
+                        className={styles.link}
+                        key={item._id}
+                        to={`/ingredients/${item._id}`}
+                        state={{ backgroundLocation: location }}
+                    >
+                    <Ingredient key={item._id} item={item}  />
+                    </Link>
+                )}
+              </ul>
+            </li>
+          </ul>
       </section>
   );
 }

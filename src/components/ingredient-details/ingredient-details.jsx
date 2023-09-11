@@ -3,13 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {getIngredients} from "../../services/actions/ingredients";
 import {useEffect, useState} from "react";
+import {getCurrentIngredient, getIngredientList} from "../../utils/store";
 
 
 const IngredientDetails  = () => {
     let { id } = useParams();
     const [pageView, setPageView] = useState(false);
-    const ingredientList = useSelector(state => state.ingredients.items);
-    let currentIngredient = useSelector(state => state.currentIngredient.currentItem);
+    const ingredientList = useSelector(getIngredientList);
+    let currentIngredient = useSelector(getCurrentIngredient);
 
     useEffect(()=>{
         if(JSON.stringify(currentIngredient) === '{}'){

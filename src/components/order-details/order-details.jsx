@@ -1,10 +1,11 @@
 import styles from "./order-details.module.css";
 import orderConfirm from "../../images/done.svg";
 import { useSelector } from "react-redux";
+import {getOrderNumber} from "../../utils/store";
 
 function OrderDetails() {
 
-    const orderNumber = useSelector(state => state.order.orderId);
+    const orderNumber = useSelector(getOrderNumber);
 
     return (
         <div className={`${styles.order__container} pt-30 pb-30`}>

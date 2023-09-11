@@ -4,10 +4,11 @@ import styles from './auth.module.css'
 import {Link, Navigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {register} from "../services/actions/auth";
+import {getAuthenticationInfo} from "../utils/store";
 
 function RegisterPage() {
 
-    const { isAuthenticated } = useSelector(state => state.authentication)
+    const { isAuthenticated } = useSelector(getAuthenticationInfo)
     const [form, setValue] = useState({ email: '', password: '' });
 
     const onChange = e => {

@@ -4,11 +4,12 @@ import {Link, Navigate, useLocation} from "react-router-dom";
 import {useState} from "react";
 import {api} from "../utils/api";
 import {useSelector} from "react-redux";
+import {getAuthenticationInfo} from "../utils/store";
 
 function ForgotPasswordPage() {
     const [form, setValue] = useState({ email: '', password: '' });
     const [reset, setReset] = useState(false);
-    const { isAuthenticated } = useSelector(state => state.authentication)
+    const { isAuthenticated } = useSelector(getAuthenticationInfo)
     const location = useLocation();
 
     const onChange = e => {

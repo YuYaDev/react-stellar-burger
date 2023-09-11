@@ -6,10 +6,11 @@ import {api} from "../utils/api";
 import {login} from "../services/actions/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {getIngredients} from "../services/actions/ingredients";
+import {getAuthenticationInfo} from "../utils/store";
 
 function LoginPage() {
 
-    const { isAuthenticated } = useSelector(state => state.authentication)
+    const { isAuthenticated } = useSelector(getAuthenticationInfo)
     const [form, setValue] = useState({ email: '', password: '' });
 
     const onChange = e => {

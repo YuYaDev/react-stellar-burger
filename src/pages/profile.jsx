@@ -5,10 +5,11 @@ import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logout, updateUserInfo} from "../services/actions/auth";
 import {getCookie} from "../utils/cookie";
+import {getAuthenticationInfo} from "../utils/store";
 
 function ProfilePage() {
     const [form, setValue] = useState({ email: '', password: '' });
-    const { userName, userEmail } = useSelector(state => state.authentication)
+    const { userName, userEmail } = useSelector(getAuthenticationInfo)
 
     const dispatch = useDispatch();
     const onChange = e => {

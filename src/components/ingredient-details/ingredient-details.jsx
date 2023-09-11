@@ -1,14 +1,42 @@
 import styles from "../ingredient-details/ingredient-details.module.css";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router-dom";
+import {getIngredients} from "../../services/actions/ingredients";
+import {useEffect, useState} from "react";
 
 
 const IngredientDetails  = () => {
-    const currentIngredient = useSelector(state => state.currentIngredient.currentItem);
+    let { id } = useParams();
+    const [pageView, setPageView] = useState(false);
+    const ingredientList = useSelector(state => state.ingredients.items);
+    let currentIngredient = useSelector(state => state.currentIngredient.currentItem);
+
+    useEffect(()=>{
+        if(JSON.stringify(currentIngredient) === '{}'){
+            setPageView(true);
+        }else{
+            setPageView(false);
+        }
+    }, [currentIngredient])
+
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        if (ingredientList.length === 0){
+            dispatch(getIngredients());
+        }
+    }, [dispatch, ingredientList])
+
+    if(pageView){
+        currentIngredient = ingredientList.find(item => item._id === id);
+    }
 
     return (
         <>
             {currentIngredient &&
             <div className={styles.ingredient__container}>
+                <p className={pageView ? "text text_type_main-large pt-15" : `${styles.header} text text_type_main-medium` }>
+                    Детали ингредиента
+                </p>
                 <img className={`${styles.ingredient__image}`} src={currentIngredient.image} alt="Ingredient"/>
                 <p className={`text text_type_main-medium mb-4`}>{currentIngredient.name}</p>
                 <ul className={styles.nutrition__container}>

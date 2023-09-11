@@ -5,6 +5,7 @@ import BurgerIngredients from "../components/burger-ingredients/burger-ingredien
 import BurgerConstructor from "../components/burger-constructor/burger-constructor";
 
 function HomePage() {
+
     return (
         <DndProvider backend={HTML5Backend}>
             <main className={styles.app__main}>

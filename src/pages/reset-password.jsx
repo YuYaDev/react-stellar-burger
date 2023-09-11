@@ -1,5 +1,5 @@
 import styles from "./auth.module.css";
-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Navigate, useLocation } from "react-router-dom";
 import {useState} from "react";
 import {api} from "../utils/api";
@@ -7,7 +7,7 @@ import {useSelector} from "react-redux";
 
 function ResetPasswordPage() {
     const [form, setValue] = useState({ email: '', password: '' });
-    const { accessToken, isAuthenticated } = useSelector(state => state.authentication)
+    const { isAuthenticated } = useSelector(state => state.authentication)
 
     const location = useLocation();
     const fromForgotPassword = (location.state?.from?.pathname === '/forgot-password')
@@ -17,8 +17,9 @@ function ResetPasswordPage() {
     };
     const onSubmit = e => {
         e.preventDefault();
-        api.updatePassword({password: form.password, token: accessToken})
-            .then((res) => console.log("Пароль обновлен"))
+        api.updatePassword({password: form.password, token: form.code})
+            .then(() => console.log("Пароль обновлен"))
+            .catch(()=>console.log("Ошибка обновления пароля"))
     }
 
     return (
@@ -40,7 +41,6 @@ function ResetPasswordPage() {
                     type={'text'}
                     placeholder={'Введите код из письма'}
                     onChange={onChange}
-                    icon={'CurrencyIcon'}
                     value={form.code}
                     name={'code'}
                     size={'default'}

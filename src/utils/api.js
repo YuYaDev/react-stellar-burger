@@ -93,7 +93,10 @@ export default class Api {
   getUserInfo(token){
     let authHeaders = JSON.parse(JSON.stringify(this._headers))
     authHeaders.Authorization = token;
-    return this._request(`${this._baseUrl}/auth/user`);
+    return this._request(`${this._baseUrl}/auth/user`, {
+      method: "GET",
+      headers: authHeaders
+    });
   }
   updateUserInfo(data, token){
     let authHeaders = JSON.parse(JSON.stringify(this._headers))

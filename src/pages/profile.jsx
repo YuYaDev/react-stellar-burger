@@ -1,23 +1,21 @@
 import { EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import styles from './profile.module.css'
 import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logout, updateUserInfo} from "../services/actions/auth";
 import {getCookie} from "../utils/cookie";
 import {getAuthenticationInfo} from "../utils/store";
+import {useForm} from "../hooks/useForm";
 
 function ProfilePage() {
-    const [form, setValue] = useState({ email: '', password: '' });
+    const {values, handleChange} = useForm({});
     const { userName, userEmail } = useSelector(getAuthenticationInfo)
 
     const dispatch = useDispatch();
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
     useEffect(()=>{
-        dispatch(updateUserInfo({name: form.name || userName, email: form.email || userEmail, password: form.password}, getCookie('accessToken')));
-    }, [form, dispatch, userName, userEmail]);
+        dispatch(updateUserInfo({name: values.name || userName, email: values.email || userEmail, password: values.password}, getCookie('accessToken')));
+    }, [values, dispatch, userName, userEmail]);
 
     const onClick = () => {
         dispatch(logout(getCookie('refreshToken')));
@@ -40,22 +38,22 @@ function ProfilePage() {
                 <Input
                     type={'text'}
                     placeholder={'Имя'}
-                    onChange={onChange}
+                    onChange={handleChange}
                     icon={'EditIcon'}
-                    value={form.name || userName}
+                    value={values.name || userName}
                     name={'name'}
                     size={'default'}
                 />
                 <EmailInput
-                    onChange={onChange}
-                    value={form.email || userEmail}
+                    onChange={handleChange}
+                    value={values.email || userEmail}
                     name={'email'}
                     placeholder="Логин"
                     isIcon={true}
                 />
                 <PasswordInput
-                    onChange={onChange}
-                    value={form.password}
+                    onChange={handleChange}
+                    value={values.password}
                     name={'password'}
                     icon="EditIcon"
                 />

@@ -1,5 +1,5 @@
 import { api } from "../../utils/api";
-import {deleteCookie, getCookie, setCookie} from "../../utils/cookie";
+import {deleteCookie, setCookie} from "../../utils/cookie";
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_REQUEST_SUCCESS = 'AUTH_REQUEST_SUCCESS';
@@ -75,7 +75,7 @@ export function updateUserInfo(data, token) {
                 type: UPDATE_USERINFO_SUCCESS,
                 payload: res
             });
-        }).catch((e) => {
+        }).catch(() => {
             dispatch({
                 type: UPDATE_USERINFO_FAILED
             });
@@ -91,7 +91,7 @@ export function getUserInfo(token) {
                 type: GET_USERINFO_SUCCESS,
                 payload: res
             });
-        }).catch((e) => {
+        }).catch(() => {
             dispatch({
                 type: GET_USERINFO_FAILED
             });

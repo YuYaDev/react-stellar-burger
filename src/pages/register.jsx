@@ -1,52 +1,41 @@
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useState} from "react";
 import styles from './auth.module.css'
-import {Link, Navigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
 import {register} from "../services/actions/auth";
-import {getAuthenticationInfo} from "../utils/store";
+import {useForm} from "../hooks/useForm";
 
 function RegisterPage() {
-
-    const { isAuthenticated } = useSelector(getAuthenticationInfo)
-    const [form, setValue] = useState({ email: '', password: '' });
-
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
+    const {values, handleChange} = useForm({});
 
     const dispatch = useDispatch();
     const onSubmit = e => {
         e.preventDefault();
-        dispatch(register(form));
+        dispatch(register(values));
     }
 
     return (
-        <>
-        {isAuthenticated && <Navigate replace to="/" />}
-        {
-            !isAuthenticated &&
         <div className={styles.container}>
             <form className={styles.formContainer} onSubmit={onSubmit}>
                 <p className="text text_type_main-medium">Регистрация</p>
                 <Input
                     type={'text'}
                     placeholder={'Имя'}
-                    onChange={onChange}
-                    value={form.name}
+                    onChange={handleChange}
+                    value={values.name}
                     name={'name'}
                     size={'default'}
                     extraClass="ml-1"
                 />
                 <EmailInput
-                    onChange={onChange}
-                    value={form.email}
+                    onChange={handleChange}
+                    value={values.email}
                     name={'email'}
                     isIcon={false}
                 />
                 <PasswordInput
-                    onChange={onChange}
-                    value={form.password}
+                    onChange={handleChange}
+                    value={values.password}
                     name={'password'}
                     extraClass="mb-2"
                 />
@@ -56,8 +45,6 @@ function RegisterPage() {
             </form>
             <p className="text text_type_main-default text_color_inactive pt-4 mt-1">Уже зарегистрированы? <Link className={styles.link} to="/login">Войти</Link></p>
         </div>
-        }
-        </>
     );
 }
 export default RegisterPage;

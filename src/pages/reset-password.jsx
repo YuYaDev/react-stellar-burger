@@ -1,39 +1,32 @@
 import styles from "./auth.module.css";
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Navigate, useLocation } from "react-router-dom";
-import {useState} from "react";
 import {api} from "../utils/api";
-import {useSelector} from "react-redux";
-import {getAuthenticationInfo} from "../utils/store";
+import {useForm} from "../hooks/useForm";
 
 function ResetPasswordPage() {
-    const [form, setValue] = useState({ email: '', password: '' });
-    const { isAuthenticated } = useSelector(getAuthenticationInfo)
+    const {values, handleChange} = useForm({});
 
     const location = useLocation();
     const fromForgotPassword = (location.state?.from?.pathname === '/forgot-password')
 
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
     const onSubmit = e => {
         e.preventDefault();
-        api.updatePassword({password: form.password, token: form.code})
+        api.updatePassword({password: values.password, token: values.code})
             .then(() => console.log("Пароль обновлен"))
             .catch(()=>console.log("Ошибка обновления пароля"))
     }
 
     return (
     <>
-        { isAuthenticated && <Navigate replace to="/" />}
         { !fromForgotPassword && <Navigate replace to="/forgot-password" />}
         {
         <div className={styles.container}>
             <form className={styles.formContainer} onSubmit={onSubmit}>
                 <p className="text text_type_main-medium">Восстановление пароля</p>
                 <PasswordInput
-                    onChange={onChange}
-                    value={form.password}
+                    onChange={handleChange}
+                    value={values.password}
                     name={'password'}
                     extraClass="mb-2"
                     placeholder={'Введите новый пароль'}
@@ -41,8 +34,8 @@ function ResetPasswordPage() {
                 <Input
                     type={'text'}
                     placeholder={'Введите код из письма'}
-                    onChange={onChange}
-                    value={form.code}
+                    onChange={handleChange}
+                    value={values.code}
                     name={'code'}
                     size={'default'}
                     extraClass="ml-1"

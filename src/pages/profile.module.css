@@ -1,0 +1,35 @@
+.container{
+    display: flex;
+    justify-content: space-between;
+    max-width: 920px;
+    margin: 120px auto;
+    gap: 60px;
+}
+
+.list {
+    list-style: none;
+    list-style-position: inside;
+    padding-left: 0;
+    margin-top: 0;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.activeLink{
+    text-decoration: none;
+    color: #f2f2f3;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}

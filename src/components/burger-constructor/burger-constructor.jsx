@@ -11,13 +11,17 @@ import BurgerConstructorItem from "../burger-constructor-item/burger-constructor
 import {addModuleIngredient, deleteModuleIngredient, resetModuleIngredients} from "../../services/actions/burger-constructor";
 import {createOrder} from "../../services/actions/order";
 import {useDrop} from "react-dnd";
+import {useNavigate} from "react-router-dom";
+import {getAddedIngredient, getAuthenticationInfo} from "../../utils/store";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
 
   const [modalVisible,setModalVisible] = useState(false);
+  const { isAuthenticated } = useSelector(getAuthenticationInfo)
+  const navigate = useNavigate();
 
-  const addedItems = useSelector(state => state.addedIngredients);
+  const addedItems = useSelector(getAddedIngredient);
   const bun = addedItems.bun;
   const fillings = addedItems.ingredients;
 
@@ -110,7 +114,7 @@ function BurgerConstructor() {
                   <Button disabled htmlType="button" type="primary" size="large">
                     Оформить заказ
                   </Button> :
-                  <Button onClick={openModal} htmlType="button" type="primary" size="large">
+                  <Button onClick={() => {isAuthenticated ? openModal() : navigate('./login')}} htmlType="button" type="primary" size="large">
                     Оформить заказ
                   </Button>
             }

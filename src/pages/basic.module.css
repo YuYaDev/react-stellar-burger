@@ -1,9 +1,9 @@
-.app__main {
-    max-width: 1240px;
+.twoColumns {
     display: grid;
-    grid-template-columns: repeat(2, 600px);
+    grid-template-columns: 600px minmax(600px,auto);
     column-gap: 40px;
     margin: 0 auto;
     padding-bottom: 40px;
     padding-top: 40px;
 }
+

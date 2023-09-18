@@ -115,7 +115,7 @@ export default class Api {
   }
   updateUserInfo(data, token){
     let authHeaders = JSON.parse(JSON.stringify(this._headers))
-    authHeaders.Authorization = token;
+    authHeaders.authorization = token;
     return this._requestWithRefresh(`${this._baseUrl}/auth/user`, {
       method: "PATCH",
       headers: authHeaders,

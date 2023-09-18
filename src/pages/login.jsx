@@ -6,7 +6,7 @@ import {useDispatch} from "react-redux";
 import {useForm} from "../hooks/useForm";
 
 function LoginPage() {
-    const {values, handleChange} = useForm({});
+    const {values, handleChange} = useForm({name: '', email: '', password: ''});
 
     const dispatch = useDispatch();
     const onSubmit = e => {

@@ -8,6 +8,7 @@ import {
     LOGOUT_REQUEST_SUCCESS,
     UPDATE_USERINFO_SUCCESS,
 } from "../actions/auth";
+import {getCookie} from "../../utils/cookie";
 
 const initialState = {
     authenticationRequest: false,
@@ -19,7 +20,7 @@ const initialState = {
     isAuthenticated: false,
     userName: '',
     userEmail: '',
-    accessToken: ''
+    accessToken: getCookie('accessToken')
 }
 
 export const authReducer = (state = initialState, action) => {

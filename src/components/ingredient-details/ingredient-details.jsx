@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {getIngredients} from "../../services/actions/ingredients";
 import {useEffect, useState} from "react";
-import {getCurrentIngredient, getIngredientList} from "../../utils/store";
+import {getCurrentIngredient, getIngredientList} from "../../services/selectors/selectors";
 
 
 const IngredientDetails  = () => {

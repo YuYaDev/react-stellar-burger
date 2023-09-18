@@ -1,7 +1,7 @@
 import styles from "./order-details.module.css";
 import orderConfirm from "../../images/done.svg";
 import { useSelector } from "react-redux";
-import {getOrderNumber} from "../../utils/store";
+import {getOrderNumber} from "../../services/selectors/selectors";
 
 function OrderDetails() {
 

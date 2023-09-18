@@ -15,6 +15,10 @@ import {getUserInfo} from "../../services/actions/auth";
 import {useDispatch} from "react-redux";
 import Modal from "../modal/modal";
 import {hideMenuIngredient} from "../../services/actions/ingredient";
+import FeedPage from "../../pages/feed";
+import OrderFeedDetails from "../order-feed-details/order-feed-details";
+import EditUserForm from "../edit-user-form/edit-user-form";
+import ProfileOrders from "../../pages/profile-orders";
 
 function App() {
     let location = useLocation();
@@ -45,8 +49,12 @@ function App() {
                 <Route path="/register" element={<ProtectedRouteElement element={<RegisterPage />} onlyForAuth={false}/>} />
                 <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPasswordPage />} onlyForAuth={false}/>} />
                 <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPasswordPage />} onlyForAuth={false}/>} />
-                <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage />} onlyForAuth={true}/>} />
+                <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage element={<EditUserForm />}/>} onlyForAuth={true}/>} />
                 <Route path="/ingredients/:id" element={<IngredientDetails />} />
+                <Route path="/feed" element={<FeedPage />} />
+                <Route path="/feed/:id" element={<OrderFeedDetails />} />
+                <Route path="/profile/orders" element={<ProtectedRouteElement element={<ProfilePage element={<ProfileOrders />}/>} onlyForAuth={true}/>} />
+                <Route path="/profile/orders/:id" element={<ProtectedRouteElement element={<OrderFeedDetails />} onlyForAuth={true}/>} />
             </Routes>
             {state?.backgroundLocation && (
                 <Routes>
@@ -55,6 +63,16 @@ function App() {
                             <IngredientDetails />
                         </Modal>
                     } />
+                    <Route path="/feed/:id" element={
+                        <Modal modalActive={true} closeModal={closeModal}>
+                            <OrderFeedDetails />
+                        </Modal>
+                    } />
+                    <Route path="/profile/orders/:id" element={<ProtectedRouteElement element={
+                        <Modal modalActive={true} closeModal={closeModal}>
+                            <OrderFeedDetails />
+                        </Modal>
+                    } />} onlyForAuth={true}/>
                 </Routes>
             )}
         </div>

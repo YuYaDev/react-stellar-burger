@@ -14,7 +14,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
-import {getAddedIngredient} from "../../utils/store";
+import {getAddedIngredient} from "../../services/selectors/selectors";
 
 function Ingredient(props) {
     const { item } = props;

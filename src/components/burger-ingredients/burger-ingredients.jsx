@@ -1,19 +1,12 @@
 import styles from "./burger-ingredients.module.css";
 
-import {
-  useState,
-  useEffect,
-} from "react";
+import { useEffect } from "react";
 
-
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import Ingredient from "../ingredient/ingredient";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
-import { showMenuIngredient, hideMenuIngredient } from "../../services/actions/ingredient";
-import {Link, useLocation, useNavigate} from "react-router-dom";
-import {getIngredientList} from "../../utils/store";
+import {Link, useLocation} from "react-router-dom";
+import {getIngredientList} from "../../services/selectors/selectors";
 
 function BurgerIngredients() {
   const items = useSelector(getIngredientList);

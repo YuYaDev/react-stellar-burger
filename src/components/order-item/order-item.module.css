@@ -1,0 +1,30 @@
+.orderItem {
+    display: flex;
+    flex-direction: column;
+    background-color: #1C1C21;
+    border-radius: 25px;
+}
+
+.orderItem__numDate{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.orderItem__price{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+}
+
+.orderItem__img{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.orderItem__status {
+    color: #00CCCC;
+}

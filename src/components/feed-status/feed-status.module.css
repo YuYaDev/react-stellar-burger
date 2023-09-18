@@ -1,0 +1,26 @@
+.feedStatus {
+    display: flex;
+    flex-direction: column;
+}
+
+.feedStatus__orders{
+    display: flex;
+    gap: 36px;
+}
+
+.feedStatus__status{
+    display: flex;
+    flex-direction: column;
+}
+
+.feedStatus__orderNumbers{
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(10, auto);
+    gap: 0 24px;
+    color: #00CCCC;
+    grid-auto-rows: 0;
+    list-style: none;
+    padding-left: 0;
+}

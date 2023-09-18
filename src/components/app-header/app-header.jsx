@@ -16,7 +16,7 @@ function AppHeader() {
                             </div>
                         )}
                     </NavLink>
-                    <NavLink to="/profile/orders" className={({ isActive }) => isActive ? styles.activeLink : styles.link}>
+                    <NavLink to="/feed" className={({ isActive }) => isActive ? styles.activeLink : styles.link}>
                         {({ isActive }) => (
                             <div className={`${styles.flexRow} p-4`}>
                                 <ListIcon type={isActive ? "primary" : "secondary"} />

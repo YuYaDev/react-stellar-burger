@@ -1,0 +1,34 @@
+import OrderFeed from "../components/order-feed/order-feed";
+import FeedStatus from "../components/feed-status/feed-status";
+import styles from './basic.module.css'
+import {getAllOrdersInfo, getAuthenticationInfo} from "../services/selectors/selectors";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {WS_ALLORDERS_CONNECTION_START} from "../services/actions/ws-all-orders";
+
+function FeedPage() {
+    const { accessToken } = useSelector(getAuthenticationInfo);
+    const {orders, total, totalToday } = useSelector(getAllOrdersInfo);
+    const dispatch = useDispatch();
+    useEffect(
+        () => {
+            if (accessToken) {
+                dispatch({ type: WS_ALLORDERS_CONNECTION_START });
+            }
+        },
+        [accessToken, dispatch]
+    );
+
+  return (
+      <>
+      { orders &&
+        <main className={styles.twoColumns}>
+            <h1 className="text text_type_main-large m-10">Лента заказов</h1>
+            <OrderFeed orders={orders} link={'feed'} showStatus={false}/>
+            <FeedStatus orders={orders} total={total} totalToday={totalToday} />
+        </main>
+      }
+      </>
+);
+}
+export default FeedPage;

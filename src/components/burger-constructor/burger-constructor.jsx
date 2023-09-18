@@ -12,7 +12,7 @@ import {addModuleIngredient, deleteModuleIngredient, resetModuleIngredients} fro
 import {createOrder} from "../../services/actions/order";
 import {useDrop} from "react-dnd";
 import {useNavigate} from "react-router-dom";
-import {getAddedIngredient, getAuthenticationInfo} from "../../utils/store";
+import {getAddedIngredient, getAuthenticationInfo} from "../../services/selectors/selectors";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();

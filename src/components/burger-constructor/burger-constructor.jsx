@@ -12,13 +12,13 @@ import {addModuleIngredient, deleteModuleIngredient, resetModuleIngredients} fro
 import {createOrder} from "../../services/actions/order";
 import {useDrop} from "react-dnd";
 import {useNavigate} from "react-router-dom";
-import {getAddedIngredient, getAuthenticationInfo} from "../../services/selectors/selectors";
+import {getAddedIngredient, getAuthenticationInfo, getOrderInfo} from "../../services/selectors/selectors";
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
 
   const [modalVisible,setModalVisible] = useState(false);
-  const { isAuthenticated } = useSelector(getAuthenticationInfo)
+  const { isAuthenticated, accessToken } = useSelector(getAuthenticationInfo)
   const navigate = useNavigate();
 
   const addedItems = useSelector(getAddedIngredient);
@@ -53,7 +53,7 @@ function BurgerConstructor() {
       orderData.push(bun._id);
     }
 
-    dispatch(createOrder(orderData));
+    dispatch(createOrder(orderData, accessToken));
     setModalVisible(true);
   }
 

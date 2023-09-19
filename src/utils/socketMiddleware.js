@@ -10,9 +10,9 @@ export const socketMiddleware = (wsUrl, wsActions, wsAuth) => {
             const { useAuth } = wsAuth;
             const { getState } = store;
             const { accessToken } = getState().authentication;
-            const token = accessToken.replace('Bearer', '')
 
-            if (type === wsInit && useAuth && token) {
+            if (type === wsInit && useAuth) {
+                const token = accessToken.replace('Bearer ', '')
                 socket = new WebSocket(`${wsUrl}?token=${token}`);
             }else {
                 if (type === wsInit) {
@@ -42,6 +42,7 @@ export const socketMiddleware = (wsUrl, wsActions, wsAuth) => {
                 };
 
                 if (type === wsSendMessage) {
+                    const token = accessToken.replace('Bearer ', '')
                     const message = { ...payload, token: token };
                     socket.send(JSON.stringify(message));
                 }

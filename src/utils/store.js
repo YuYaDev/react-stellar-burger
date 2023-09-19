@@ -34,7 +34,7 @@ const wsAuth_allOrders = {
     useAuth: false
 };
 
-const wsUrl_userOrders = 'wss://norma.nomoreparties.space/orders/';
+const wsUrl_userOrders = 'wss://norma.nomoreparties.space/orders';
 
 const wsActions_userOrders = {
     wsInit: WS_USERORDERS_CONNECTION_START,

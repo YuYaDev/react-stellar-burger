@@ -45,16 +45,16 @@ function App() {
             <AppHeader />
             <Routes location={state?.backgroundLocation || location}>
                 <Route path="/" element={<Home />} />
-                <Route path="/login" element={<ProtectedRouteElement element={<LoginPage />} onlyForAuth={false}/>} />
-                <Route path="/register" element={<ProtectedRouteElement element={<RegisterPage />} onlyForAuth={false}/>} />
-                <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPasswordPage />} onlyForAuth={false}/>} />
-                <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPasswordPage />} onlyForAuth={false}/>} />
-                <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage element={<EditUserForm />}/>} onlyForAuth={true}/>} />
+                <Route path="/login" element={<ProtectedRouteElement element={<LoginPage />} onlyForAuth={false} />} />
+                <Route path="/register" element={<ProtectedRouteElement element={<RegisterPage />} onlyForAuth={false} />} />
+                <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPasswordPage />} onlyForAuth={false} />} />
+                <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPasswordPage />} onlyForAuth={false} />} />
+                <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage element={<EditUserForm />}/>} onlyForAuth={true} />} />
                 <Route path="/ingredients/:id" element={<IngredientDetails />} />
                 <Route path="/feed" element={<FeedPage />} />
                 <Route path="/feed/:id" element={<OrderFeedDetails />} />
-                <Route path="/profile/orders" element={<ProtectedRouteElement element={<ProfilePage element={<ProfileOrders />}/>} onlyForAuth={true}/>} />
-                <Route path="/profile/orders/:id" element={<ProtectedRouteElement element={<OrderFeedDetails />} onlyForAuth={true}/>} />
+                <Route path="/profile/orders" element={<ProtectedRouteElement element={<ProfilePage element={<ProfileOrders />}/>} onlyForAuth={true} />} />
+                <Route path="/profile/orders/:id" element={<ProtectedRouteElement element={<OrderFeedDetails />} onlyForAuth={true} />} />
             </Routes>
             {state?.backgroundLocation && (
                 <Routes>
@@ -72,7 +72,7 @@ function App() {
                         <Modal modalActive={true} closeModal={closeModal}>
                             <OrderFeedDetails />
                         </Modal>
-                    } />} onlyForAuth={true}/>
+                    } onlyForAuth={true} />} />
                 </Routes>
             )}
         </div>

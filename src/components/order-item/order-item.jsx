@@ -12,12 +12,6 @@ function OrderItem(props) {
     const { item, showStatus } = props;
     const items = useSelector(getIngredientList);
     const orderIngredients = items.filter(ingredient => item.ingredients.includes(ingredient._id));
-    const dispatch = useDispatch();
-    useEffect(()=>{
-        if (items.length === 0){
-            dispatch(getIngredients());
-        }
-    }, [dispatch, items])
 
     const totalPrice = useMemo(() => {
         return orderIngredients.reduce((acc, item) => {

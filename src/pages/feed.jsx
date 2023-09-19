@@ -4,19 +4,21 @@ import styles from './basic.module.css'
 import {getAllOrdersInfo, getAuthenticationInfo} from "../services/selectors/selectors";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {WS_ALLORDERS_CONNECTION_START} from "../services/actions/ws-all-orders";
+import {
+    WS_ALLORDERS_CONNECTION_CLOSED,
+    WS_ALLORDERS_CONNECTION_START,
+    wsConnectionClosed
+} from "../services/actions/ws-all-orders";
 
 function FeedPage() {
-    const { accessToken } = useSelector(getAuthenticationInfo);
     const {orders, total, totalToday } = useSelector(getAllOrdersInfo);
     const dispatch = useDispatch();
     useEffect(
         () => {
-            if (accessToken) {
-                dispatch({ type: WS_ALLORDERS_CONNECTION_START });
-            }
+            dispatch({ type: WS_ALLORDERS_CONNECTION_START });
+            return () => dispatch({ type: WS_ALLORDERS_CONNECTION_CLOSED });
         },
-        [accessToken, dispatch]
+        [dispatch]
     );
 
   return (

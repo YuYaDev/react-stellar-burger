@@ -5,7 +5,8 @@ export const getAddedIngredient = state => state.addedIngredients;
 export const getOrderNumber = state => state.order.orderId;
 export const getOrderInfo = state => state.order;
 export const getAllOrdersInfo = state => state.allOrders.messages;
-export const getUserOrdersInfo = state => state.userOrders.messages;
 export const isAllOrdersConnected = state => state.allOrders.wsConnected;
 export const isAllOrdersStartConnection = state => state.allOrders.setConnection;
-
+export const getUserOrdersInfo = state => state.userOrders.messages;
+export const isUserOrdersConnected = state => state.userOrders.wsConnected;
+export const isUserOrdersStartConnection = state => state.userOrders.setConnection;

@@ -3,23 +3,27 @@ import styles from './order-feed-details.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {
     getAllOrdersInfo,
-    getIngredientList,
+    getIngredientList, getUserOrdersInfo,
     isAllOrdersConnected,
-    isAllOrdersStartConnection
+    isAllOrdersStartConnection, isUserOrdersConnected, isUserOrdersStartConnection
 } from "../../services/selectors/selectors";
 import {useEffect, useMemo, useState} from "react";
 import {getIngredients} from "../../services/actions/ingredients";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {WS_ALLORDERS_CONNECTION_CLOSED, WS_ALLORDERS_CONNECTION_START} from "../../services/actions/ws-all-orders";
+import {WS_USERORDERS_CONNECTION_CLOSED, WS_USERORDERS_CONNECTION_START} from "../../services/actions/ws-user-orders";
 
 function countIngredient(ingredient, ingredientList){
     return ingredientList.filter(item => item === ingredient._id).length
 }
 function OrderFeedDetails(){
     let { id } = useParams();
-    const { orders } = useSelector(getAllOrdersInfo);
-    const isConnected = useSelector(isAllOrdersConnected);
-    const isConnectionStarted = useSelector(isAllOrdersStartConnection);
+    const source = window.location.pathname.includes('feed') ? 'feed' : 'profile';
+
+    const { orders } = useSelector(source === 'feed' ? getAllOrdersInfo : getUserOrdersInfo );
+    const isConnected = useSelector(source === 'feed' ? isAllOrdersConnected : isUserOrdersConnected);
+    const isConnectionStarted = useSelector(source === 'feed' ? isAllOrdersStartConnection : isUserOrdersStartConnection);
+
     const [startConnectionInside, setConnectionInside] = useState(false);
     let currentOrder = [];
     let orderIngredients = [];
@@ -31,19 +35,25 @@ function OrderFeedDetails(){
             dispatch(getIngredients());
         }
         if(!orders && !isConnected && !isConnectionStarted) {
-            dispatch({ type: WS_ALLORDERS_CONNECTION_START });
+            if(source === 'feed')
+                dispatch({ type: WS_ALLORDERS_CONNECTION_START });
+            else
+                dispatch({ type: WS_USERORDERS_CONNECTION_START });
             setConnectionInside(true)
         }
-    }, [dispatch, items, orders, isConnected, isConnectionStarted])
+    }, [dispatch, items, orders, isConnected, isConnectionStarted, source])
 
     useEffect(()=>{
         return () => {
             if (startConnectionInside && isConnected){
-                dispatch({ type: WS_ALLORDERS_CONNECTION_CLOSED });
+                if(source === 'feed')
+                    dispatch({ type: WS_ALLORDERS_CONNECTION_CLOSED });
+                else
+                    dispatch({ type: WS_USERORDERS_CONNECTION_CLOSED });
                 setConnectionInside(false)
             }
         }
-    }, [dispatch, startConnectionInside, isConnected])
+    }, [dispatch, startConnectionInside, isConnected, source])
 
 
     const totalPrice = useMemo(() => {

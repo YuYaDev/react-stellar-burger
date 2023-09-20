@@ -1,13 +1,17 @@
 import {useSelector} from "react-redux";
 import {Navigate} from "react-router-dom";
 import {getAuthenticationInfo} from "../../services/selectors/selectors";
+import {getCookie} from "../../utils/cookie";
 
 export function ProtectedRouteElement({ element, onlyForAuth }) {
     const { isAuthenticated } = useSelector(getAuthenticationInfo)
-    // Для неавторизованных пользователей
-    if(onlyForAuth)
-        return isAuthenticated ? element : <Navigate to="/login" replace/>;
-    // Для авторизованных пользователей
-    else
-        return isAuthenticated ? <Navigate to="/" replace/> : element;
+    const token = getCookie('accessToken');
+
+    if (!onlyForAuth && isAuthenticated) {
+        return <Navigate to="/" />
+    }
+    if (onlyForAuth && !isAuthenticated && !token) {
+        return <Navigate to="/login" />
+    }
+    return element;
 }

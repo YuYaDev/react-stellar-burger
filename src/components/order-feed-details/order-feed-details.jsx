@@ -1,11 +1,16 @@
 import {useParams} from "react-router-dom";
 import styles from './order-feed-details.module.css'
 import {useDispatch, useSelector} from "react-redux";
-import {getAllOrdersInfo, getIngredientList} from "../../services/selectors/selectors";
-import {useEffect, useMemo} from "react";
+import {
+    getAllOrdersInfo,
+    getIngredientList,
+    isAllOrdersConnected,
+    isAllOrdersStartConnection
+} from "../../services/selectors/selectors";
+import {useEffect, useMemo, useState} from "react";
 import {getIngredients} from "../../services/actions/ingredients";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
-import {WS_ALLORDERS_CONNECTION_START} from "../../services/actions/ws-all-orders";
+import {WS_ALLORDERS_CONNECTION_CLOSED, WS_ALLORDERS_CONNECTION_START} from "../../services/actions/ws-all-orders";
 
 function countIngredient(ingredient, ingredientList){
     return ingredientList.filter(item => item === ingredient._id).length
@@ -13,6 +18,9 @@ function countIngredient(ingredient, ingredientList){
 function OrderFeedDetails(){
     let { id } = useParams();
     const { orders } = useSelector(getAllOrdersInfo);
+    const isConnected = useSelector(isAllOrdersConnected);
+    const isConnectionStarted = useSelector(isAllOrdersStartConnection);
+    const [startConnectionInside, setConnectionInside] = useState(false);
     let currentOrder = [];
     let orderIngredients = [];
 
@@ -22,10 +30,21 @@ function OrderFeedDetails(){
         if (items.length === 0){
             dispatch(getIngredients());
         }
-        if(!orders) {
+        if(!orders && !isConnected && !isConnectionStarted) {
             dispatch({ type: WS_ALLORDERS_CONNECTION_START });
+            setConnectionInside(true)
+            console.log('set')
         }
     }, [dispatch, items, orders])
+
+    useEffect(()=>{
+        return () => {
+            if (startConnectionInside && isConnected){
+                dispatch({ type: WS_ALLORDERS_CONNECTION_CLOSED });
+                setConnectionInside(false)
+            }
+        }
+    }, [dispatch, startConnectionInside, isConnected])
 
 
     const totalPrice = useMemo(() => {
@@ -39,7 +58,6 @@ function OrderFeedDetails(){
     if (orders && items)
         orderIngredients = items.filter(ingredient => currentOrder.ingredients.includes(ingredient._id));
 
-    console.log(currentOrder, orderIngredients)
     return(
         <>
             {   orders && items &&

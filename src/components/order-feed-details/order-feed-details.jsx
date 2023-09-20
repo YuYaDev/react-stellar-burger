@@ -33,9 +33,8 @@ function OrderFeedDetails(){
         if(!orders && !isConnected && !isConnectionStarted) {
             dispatch({ type: WS_ALLORDERS_CONNECTION_START });
             setConnectionInside(true)
-            console.log('set')
         }
-    }, [dispatch, items, orders])
+    }, [dispatch, items, orders, isConnected, isConnectionStarted])
 
     useEffect(()=>{
         return () => {

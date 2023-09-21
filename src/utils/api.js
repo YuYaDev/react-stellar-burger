@@ -36,10 +36,12 @@ export default class Api {
     return this._request(`${this._baseUrl}/ingredients`);
   }
 
-  createOrder(ingredientsIds) {
+  createOrder(ingredientsIds, token) {
+    let authHeaders = JSON.parse(JSON.stringify(this._headers))
+    authHeaders.Authorization = token;
     return this._request(`${this._baseUrl}/orders`, {
       method: "POST",
-      headers: this._headers,
+      headers: authHeaders,
       body: JSON.stringify({
         ingredients: ingredientsIds,
       }),
@@ -115,7 +117,7 @@ export default class Api {
   }
   updateUserInfo(data, token){
     let authHeaders = JSON.parse(JSON.stringify(this._headers))
-    authHeaders.Authorization = token;
+    authHeaders.authorization = token;
     return this._requestWithRefresh(`${this._baseUrl}/auth/user`, {
       method: "PATCH",
       headers: authHeaders,

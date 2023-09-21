@@ -1,61 +1,46 @@
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useEffect, useState} from "react";
 import styles from './auth.module.css'
-import {Link, Navigate} from "react-router-dom";
-import {api} from "../utils/api";
+import {Link} from "react-router-dom";
 import {login} from "../services/actions/auth";
-import {useDispatch, useSelector} from "react-redux";
-import {getIngredients} from "../services/actions/ingredients";
-import {getAuthenticationInfo} from "../utils/store";
+import {useDispatch} from "react-redux";
+import {useForm} from "../hooks/useForm";
 
 function LoginPage() {
-
-    const { isAuthenticated } = useSelector(getAuthenticationInfo)
-    const [form, setValue] = useState({ email: '', password: '' });
-
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
+    const {values, handleChange} = useForm({name: '', email: '', password: ''});
 
     const dispatch = useDispatch();
     const onSubmit = e => {
         e.preventDefault();
-        dispatch(login(form));
+        dispatch(login(values));
     }
 
     return (
-        <>
-        {isAuthenticated && <Navigate replace to="/" />}
-        {
-            !isAuthenticated &&
-            <div className={styles.container}>
-                <form className={styles.formContainer} onSubmit={onSubmit}>
-                    <p className="text text_type_main-medium">Вход</p>
-                    <EmailInput
-                        onChange={onChange}
-                        value={form.email}
-                        name={'email'}
-                        isIcon={false}
-                        error={false}
-                    />
-                    <PasswordInput
-                        onChange={onChange}
-                        value={form.password}
-                        name={'password'}
-                        extraClass="mb-2"
-                        placeholder={'Пароль'}
-                    />
-                    <Button htmlType="submit" type="primary" size="medium" extraClass="mb-15">
-                        Войти
-                    </Button>
-                </form>
-                <p className="text text_type_main-default text_color_inactive pt-4 mt-1">Вы новый пользователь? <Link
-                    className={styles.link} to="/register">Зарегистрироваться</Link></p>
-                <p className="text text_type_main-default text_color_inactive pt-4">Забыли пароль? <Link
-                    className={styles.link} to="/forgot-password">Восстановить пароль</Link></p>
-            </div>
-        }
-        </>
+        <div className={styles.container}>
+            <form className={styles.formContainer} onSubmit={onSubmit}>
+                <p className="text text_type_main-medium">Вход</p>
+                <EmailInput
+                    onChange={handleChange}
+                    value={values.email}
+                    name={'email'}
+                    isIcon={false}
+                    error={false}
+                />
+                <PasswordInput
+                    onChange={handleChange}
+                    value={values.password}
+                    name={'password'}
+                    extraClass="mb-2"
+                    placeholder={'Пароль'}
+                />
+                <Button htmlType="submit" type="primary" size="medium" extraClass="mb-15">
+                    Войти
+                </Button>
+            </form>
+            <p className="text text_type_main-default text_color_inactive pt-4 mt-1">Вы новый пользователь? <Link
+                className={styles.link} to="/register">Зарегистрироваться</Link></p>
+            <p className="text text_type_main-default text_color_inactive pt-4">Забыли пароль? <Link
+                className={styles.link} to="/forgot-password">Восстановить пароль</Link></p>
+        </div>
     );
 }
 export default LoginPage;

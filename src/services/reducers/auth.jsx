@@ -1,20 +1,20 @@
 import {
     AUTH_REQUEST,
     AUTH_REQUEST_FAILED,
-    AUTH_REQUEST_SUCCESS,
+    AUTH_REQUEST_SUCCESS, GET_USERINFO_FAILED, GET_USERINFO_REQUEST,
     GET_USERINFO_SUCCESS,
     LOGOUT_REQUEST,
     LOGOUT_REQUEST_FAILED,
     LOGOUT_REQUEST_SUCCESS,
-    UPDATE_TOKEN_REQUEST,
-    UPDATE_TOKEN_REQUEST_FAILED,
-    UPDATE_TOKEN_REQUEST_SUCCESS,
     UPDATE_USERINFO_SUCCESS,
 } from "../actions/auth";
+import {getCookie} from "../../utils/cookie";
 
 const initialState = {
     authenticationRequest: false,
     authenticationRequestFailed: false,
+    userInfoRequest: false,
+    userInfoRequestFailed: false,
     tokenRequest: false,
     tokenRequestFailed: false,
     logoutRequest: false,
@@ -22,7 +22,7 @@ const initialState = {
     isAuthenticated: false,
     userName: '',
     userEmail: '',
-    accessToken: ''
+    accessToken: getCookie('accessToken')
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -55,12 +55,26 @@ export const authReducer = (state = initialState, action) => {
                 accessToken: initialState.accessToken,
             };
         }
+        case GET_USERINFO_REQUEST: {
+            return {
+                ...state,
+                userInfoRequest: true,
+            };
+        }
         case GET_USERINFO_SUCCESS: {
             return {
                 ...state,
+                userInfoRequest: false,
                 isAuthenticated: true,
                 userName: action.payload.user.name,
                 userEmail: action.payload.user.email,
+            };
+        }
+        case GET_USERINFO_FAILED: {
+            return {
+                ...state,
+                userInfoRequest: false,
+                userInfoRequestFailed: true,
             };
         }
         case UPDATE_USERINFO_SUCCESS: {

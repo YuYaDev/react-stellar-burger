@@ -1,4 +1,4 @@
-import styles from './home.module.css'
+import styles from './basic.module.css'
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";
@@ -8,7 +8,7 @@ function HomePage() {
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <main className={styles.app__main}>
+            <main className={styles.twoColumns}>
                 <BurgerIngredients />
                 <BurgerConstructor />
             </main>

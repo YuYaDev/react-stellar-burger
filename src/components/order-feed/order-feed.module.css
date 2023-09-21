@@ -1,0 +1,21 @@
+.orderFeed {
+    grid-column: 1/2;
+}
+
+.orderFeed__orders {
+    height: 716px;
+    list-style: none;
+    margin-bottom: 0;
+    padding: 0;
+    overflow-y: scroll;
+}
+
+.link {
+    text-decoration: none;
+    color: #f2f2f3;
+}
+.orderFeed__feed {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}

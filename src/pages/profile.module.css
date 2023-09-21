@@ -1,9 +1,9 @@
 .container{
-    display: flex;
-    justify-content: space-between;
-    max-width: 920px;
-    margin: 120px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 1400px;
     gap: 60px;
+    margin: 120px auto;
 }
 
 .list {
@@ -25,11 +25,10 @@
 .menu {
     display: flex;
     flex-direction: column;
+    grid-column: 1/2;
 
 }
 
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+.content {
+    grid-column: 2/4;
 }

@@ -10,3 +10,20 @@ export const ingredientPropType = PropTypes.shape({
     price: PropTypes.number,
     image: PropTypes.string,
 });
+
+export const orderPropType = PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    status: PropTypes.string,
+    number: PropTypes.number,
+    ingredients: PropTypes.arrayOf(PropTypes.string),
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+});
+
+export const wsOrdersPropType = PropTypes.shape({
+    orders: PropTypes.arrayOf(orderPropType),
+    total: PropTypes.number,
+    totalToday: PropTypes.number,
+});
+

@@ -1,8 +1,8 @@
 import OrderFeed from "../components/order-feed/order-feed";
 import {getAuthenticationInfo, getUserOrdersInfo} from "../services/selectors/selectors";
 import {useEffect} from "react";
-import {wsConnectionClosed, wsConnectionStart} from "../services/actions/ws-all-orders";
 import {useAppDispatch, useAppSelector} from "../services/types";
+import {wsUserConnectionClosed, wsUserConnectionStart} from "../services/actions/ws-user-orders";
 
 function ProfileOrders() {
     const { accessToken } = useAppSelector(getAuthenticationInfo);
@@ -11,10 +11,10 @@ function ProfileOrders() {
 
     useEffect(() => {
         if (accessToken) {
-            dispatch(wsConnectionStart);
+            dispatch(wsUserConnectionStart());
         }
         return (() => {
-            dispatch(wsConnectionClosed)
+            dispatch(wsUserConnectionClosed())
 
         })
     }, [accessToken, dispatch])

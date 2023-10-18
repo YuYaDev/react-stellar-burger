@@ -5,17 +5,17 @@ import {IUserCredentials, IUserInfo} from "../services/types/data";
 
 interface IApi {
   _baseUrl: string,
-  _headers: HeadersInit
+  _headers: { [key: string]: string }
 }
 interface IApiConstructor {
   baseUrl: string,
-  headers: HeadersInit
+  headers: { [key: string]: string }
 }
 
 
 export default class Api implements IApi{
   public _baseUrl: string;
-  public _headers: HeadersInit;
+  public _headers: { [key: string]: string };
 
   constructor({baseUrl, headers} : IApiConstructor) {
     this._baseUrl = baseUrl
@@ -29,9 +29,6 @@ export default class Api implements IApi{
     return fetch(url, options).then(this._checkResponse);
   }
   _requestWithRefresh = async (url: string, options: RequestInit) => {
-    const headersInit: HeadersInit = {};
-    options.headers = headersInit;
-
     try {
       const res = await fetch(url, options);
       return await this._checkResponse(res);
@@ -41,7 +38,7 @@ export default class Api implements IApi{
         setCookie('refreshToken', refreshData.refreshToken,  { path: '/' });
         deleteCookie('accessToken');
         setCookie('accessToken', refreshData.accessToken,  { path: '/' });
-        options.headers.authorization = refreshData.accessToken;
+        this._headers.authorization = refreshData.accessToken;
         const res = await fetch(url, options); //вызываем перезапрос данных
         return await this._checkResponse(res);
       } else {

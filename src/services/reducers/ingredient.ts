@@ -6,10 +6,10 @@ import {IIngredient} from "../types/data";
 import {TIngredientMenuActions} from "../actions/ingredient";
 
 type TIngredientState = {
-  currentItem: IIngredient | {};
+  currentItem: IIngredient | null;
 }
 const initialState: TIngredientState = {
-  currentItem: {}
+  currentItem: null
 }
 
 export const ingredientReducer = (state = initialState, action: TIngredientMenuActions): TIngredientState  => {

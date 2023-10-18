@@ -11,10 +11,10 @@ export const FeedPage : FC = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(wsConnectionStart);
+        dispatch(wsConnectionStart());
 
         return (() => {
-            dispatch(wsConnectionClosed)
+            dispatch(wsConnectionClosed())
 
         })
     }, [dispatch])

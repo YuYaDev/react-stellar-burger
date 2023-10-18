@@ -6,6 +6,7 @@ import {
     WS_USERORDERS_GET_MESSAGE,
     WS_USERORDERS_SEND_MESSAGE
 } from "../constants/ws-user-orders";
+import {IWSMessage} from "../types/ws";
 
 
 // types
@@ -23,11 +24,11 @@ export interface IWSUserConnectionClosed {
 }
 export interface IWSUserGetMessage {
     readonly type: typeof WS_USERORDERS_GET_MESSAGE;
-    payload: ReadonlyArray<any>
+    payload: IWSMessage
 }
 export interface IWSUserSendMessage {
     readonly type: typeof WS_USERORDERS_SEND_MESSAGE;
-    payload: ReadonlyArray<any>
+    payload: IWSMessage
 }
 
 // union types
@@ -63,14 +64,14 @@ export const wsUserConnectionClosed = () : IWSUserConnectionClosed=> {
     };
 };
 
-export const wsUserGetMessage = (message: ReadonlyArray<any>) : IWSUserGetMessage => {
+export const wsUserGetMessage = (message: IWSMessage) : IWSUserGetMessage => {
     return {
         type: WS_USERORDERS_GET_MESSAGE,
         payload: message
     };
 };
 
-export const wsUserSendMessage = (message: ReadonlyArray<any>) : IWSUserSendMessage => {
+export const wsUserSendMessage = (message: IWSMessage) : IWSUserSendMessage => {
     return {
         type: WS_USERORDERS_SEND_MESSAGE,
         payload: message

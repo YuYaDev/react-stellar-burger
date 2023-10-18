@@ -5,11 +5,22 @@ import {
     WS_USERORDERS_GET_MESSAGE,
 } from "../constants/ws-user-orders";
 import {TWSUserOrders} from "../actions/ws-user-orders";
+import {IWSMessage} from "../types/ws";
 
-const initialState = {
+type TWSUserOrdersState = {
+    wsConnected: boolean,
+    setConnection: boolean,
+    messages: IWSMessage,
+};
+
+const initialState : TWSUserOrdersState = {
     wsConnected: false,
     setConnection: false,
-    messages: []
+    messages: {
+        orders: [],
+        total: 0,
+        totalToday: 0,
+    }
 };
 
 export const wsUserOrdersReducer = (state = initialState, action : TWSUserOrders) => {

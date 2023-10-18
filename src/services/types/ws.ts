@@ -33,3 +33,9 @@ export type TSocketMiddlewareActions = TWSMiddlewareAllOrdersActions | TWSMiddle
 export type TWSAuth = {
     useAuth: boolean
 };
+
+export interface IWSMessage {
+    orders: any[],
+    total: number,
+    totalToday: number,
+}

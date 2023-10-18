@@ -29,7 +29,9 @@ const IngredientDetails  = () => {
     }, [dispatch, ingredientList])
 
     if(pageView){
-        currentIngredient = ingredientList.find((item : IIngredient) => item._id === id);
+        let ingredient = ingredientList.find((item : IIngredient) => item._id === id);
+        if (ingredient)
+            currentIngredient = ingredient;
     }
 
     return (

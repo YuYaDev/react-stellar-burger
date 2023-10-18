@@ -1,6 +1,6 @@
 import {baseUrl, headers} from "./constants";
 import {deleteCookie, getCookie, setCookie} from "./cookie";
-import {IUserCredentials, IUserInfo} from "../services/types/data";
+import {IUserCredentials} from "../services/types/data";
 
 
 interface IApi {

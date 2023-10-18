@@ -13,8 +13,8 @@ import {
     UPDATE_USERINFO_FAILED,
     GET_USERINFO_REQUEST
 } from "../constants/auth";
-import {TAppDispatch, TAppThunk} from "../types";
-import {IUserCredentials, IUserInfo} from "../types/data";
+import {TAppThunk} from "../types";
+import {IUserInfo} from "../types/data";
 
 
 // action types
@@ -144,52 +144,52 @@ export const getRequestFailed = (): IGetRequestFailedAction => {
 };
 
 export const register: TAppThunk = (userData) => (dispatch)  => {
-    dispatch(authRequest);
+    dispatch(authRequest());
     api.register(userData).then(res => {
         setCookie('refreshToken', res.refreshToken,  { path: '/' });
         setCookie('accessToken', res.accessToken,  { path: '/' });
         dispatch(authSuccessRequest(res));
     }).catch(() => {
-        dispatch(authRequestFailed);
+        dispatch(authRequestFailed());
     });
 }
 
 export const login: TAppThunk = (userData) => (dispatch) => {
-    dispatch(authRequest);
+    dispatch(authRequest());
     api.login(userData).then(res => {
         setCookie('refreshToken', res.refreshToken,  { path: '/' });
         setCookie('accessToken', res.accessToken,  { path: '/' });
         dispatch(authSuccessRequest(res));
     }).catch(() => {
-        dispatch(authRequestFailed);
+        dispatch(authRequestFailed());
     });
 }
 
 export const logout: TAppThunk = (token) => (dispatch) => {
-    dispatch(logoutRequest);
+    dispatch(logoutRequest());
     api.logout(token).then(() => {
         deleteCookie('refreshToken');
         deleteCookie('accessToken');
-        dispatch(logoutRequestSuccess);
+        dispatch(logoutRequestSuccess());
     }).catch(() => {
-        dispatch(logoutRequestFailed);
+        dispatch(logoutRequestFailed());
     });
 }
 
 export const updateUserInfo: TAppThunk = (data, token) => (dispatch) => {
-    dispatch(updateRequest);
+    dispatch(updateRequest());
     api.updateUserInfo(data, token).then(res => {
         dispatch(updateSuccessRequest(res));
     }).catch(() => {
-        dispatch(updateRequestFailed);
+        dispatch(updateRequestFailed());
     });
 }
 
 export const getUserInfo: TAppThunk = (token) => (dispatch) => {
-    dispatch(getRequest);
+    dispatch(getRequest());
     api.getUserInfo(token).then(res => {
-        getSuccessRequest(res);
+        dispatch(getSuccessRequest(res));
     }).catch(() => {
-        dispatch(getRequestFailed);
+        dispatch(getRequestFailed());
     });
 }

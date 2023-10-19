@@ -22,3 +22,6 @@
     color: #f2f2f3;
 }
 
+.ingredients__tabs {
+    display: flex;
+}

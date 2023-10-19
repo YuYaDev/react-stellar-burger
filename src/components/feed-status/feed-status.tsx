@@ -8,8 +8,8 @@ interface IFeedStatus {
     totalToday: number;
 }
 const FeedStatus: FC<IFeedStatus> = ({orders, total, totalToday}) => {
-    const doneOrders = orders ? orders.filter((item: IOrder) => item.status === 'done') : []
-    const pendingOrders = orders ? orders.filter((item: IOrder) => item.status !== 'done') : []
+    const doneOrders = orders ? orders.filter(item => item.status === 'done') : []
+    const pendingOrders = orders ? orders.filter(item => item.status !== 'done') : []
     return (
         <section className={`${styles.feedStatus} pl-15`}>
             <div className={`${styles.feedStatus__orders} pb-15`}>
@@ -17,7 +17,7 @@ const FeedStatus: FC<IFeedStatus> = ({orders, total, totalToday}) => {
                     <p className="text text_type_main-medium pb-4">Готовы:</p>
                     <ul className={styles.feedStatus__orderNumbers}>
                         {
-                            doneOrders.map(((item: IOrder) => <li key={item._id}><p className="text text_type_digits-default pb-2">{item.number}</p></li>))
+                            doneOrders.map((item => <li key={item._id}><p className="text text_type_digits-default pb-2">{item.number}</p></li>))
                         }
                     </ul>
                 </div>
@@ -25,7 +25,7 @@ const FeedStatus: FC<IFeedStatus> = ({orders, total, totalToday}) => {
                     <p className="text text_type_main-medium pb-4">В работе:</p>
                     <ul className={styles.feedStatus__orderNumbers}>
                         {
-                            pendingOrders.map(((item: IOrder) => <li key={item._id}><p className="text text_type_digits-default pb-2">{item.number}</p></li>))
+                            pendingOrders.map((item => <li key={item._id}><p className="text text_type_digits-default pb-2">{item.number}</p></li>))
                         }
                     </ul>
                 </div>

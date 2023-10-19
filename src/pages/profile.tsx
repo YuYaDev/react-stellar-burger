@@ -1,17 +1,17 @@
 
 import styles from './profile.module.css'
 import {NavLink} from "react-router-dom";
-import {useDispatch} from "react-redux";
 import {logout} from "../services/actions/auth";
 import {getCookie} from "../utils/cookie";
 import {FC} from "react";
+import {useAppDispatch} from "../services/types";
 
 interface IProfilePage {
     element: JSX.Element
 }
 const ProfilePage: FC<IProfilePage> = ({ element }) => {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const onClick = () => {
         dispatch(logout(getCookie('refreshToken')));
     };

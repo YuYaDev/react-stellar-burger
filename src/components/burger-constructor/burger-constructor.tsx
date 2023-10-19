@@ -8,7 +8,7 @@ import OrderDetails from "../order-details/order-details";
 import BurgerConstructorItem from "../burger-constructor-item/burger-constructor-item";
 
 import {addModuleIngredient, deleteModuleIngredient, resetModuleIngredients} from "../../services/actions/burger-constructor";
-import {createOrder} from "../../services/actions/order";
+import {createOrder, orderRequestSuccess} from "../../services/actions/order";
 import {useDrop} from "react-dnd";
 import {useNavigate} from "react-router-dom";
 import {getAddedIngredient, getAuthenticationInfo} from "../../services/selectors/selectors";
@@ -60,6 +60,7 @@ function BurgerConstructor() {
 
   const closeModal = () => {
     dispatch(resetModuleIngredients());
+    dispatch(orderRequestSuccess(0));
     setModalVisible(false);
   }
 

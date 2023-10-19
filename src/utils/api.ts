@@ -30,8 +30,7 @@ export default class Api implements IApi{
   }
   _requestWithRefresh = async (url: string, options: RequestInit) => {
     try {
-      const res = await fetch(url, options);
-      return await this._checkResponse(res);
+      return this._request(url, options);
     } catch (err: any) {
       if (err.message === "jwt expired") {
         const refreshData = await this.updateToken(getCookie('refreshToken'));

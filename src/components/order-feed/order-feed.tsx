@@ -1,11 +1,8 @@
 import styles from "./order-feed.module.css";
 import {Link, useLocation} from "react-router-dom";
 import OrderItem from "../order-item/order-item";
-import {getIngredientList} from "../../services/selectors/selectors";
-import {FC, useEffect} from "react";
-import {getIngredients} from "../../services/actions/ingredients";
+import {FC} from "react";
 import {IOrder} from "../../services/types/data";
-import {useAppDispatch, useAppSelector} from "../../services/types";
 
 interface IOrderFeed {
     orders: IOrder[];
@@ -14,7 +11,6 @@ interface IOrderFeed {
 }
 const OrderFeed: FC<IOrderFeed> = ({ orders, link, showStatus }) =>{
     const location = useLocation();
-    const items = useAppSelector(getIngredientList);
 
     return (
         <section className={styles.orderFeed}>

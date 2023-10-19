@@ -1,9 +1,10 @@
 
-import { Middleware} from 'redux';
+import {Middleware, MiddlewareAPI} from 'redux';
 import {TSocketMiddlewareActions, TWSAuth} from "../services/types/ws";
+import {TAppDispatch, TAppState} from "../services/types";
 
 export const socketMiddleware = (wsUrl: string, wsActions: TSocketMiddlewareActions, wsAuth: TWSAuth) : Middleware  => {
-    return store => {
+    return (store: MiddlewareAPI<TAppDispatch, TAppState>) => {
         let socket: WebSocket | null = null;
 
         return next => action => {
@@ -15,7 +16,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: TSocketMiddlewareActi
             const { getState } = store;
             const { accessToken } = getState().authentication;
 
-            if (type === wsInit && useAuth) {
+            if (type === wsInit && useAuth && accessToken) {
                 const token = accessToken.replace('Bearer ', '')
                 socket = new WebSocket(`${wsUrl}?token=${token}`);
             }else {
@@ -45,7 +46,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: TSocketMiddlewareActi
                     dispatch({ type: onClose, payload: event });
                 };
 
-                if (type === wsSendMessage) {
+                if (type === wsSendMessage && accessToken) {
                     const token = accessToken.replace('Bearer ', '')
                     const message = { ...payload, token: token };
                     socket.send(JSON.stringify(message));

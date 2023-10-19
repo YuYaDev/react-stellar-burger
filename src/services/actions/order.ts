@@ -21,10 +21,10 @@ export const orderRequest = (): IOrderRequestAction => {
         type: CREATE_ORDER_REQUEST,
     }
 };
-export const orderRequestSuccess = (data: IOrder): IOrderRequestSuccessAction => {
+export const orderRequestSuccess = (data: number): IOrderRequestSuccessAction => {
     return {
         type: CREATE_ORDER_SUCCESS,
-        payload: data.number
+        payload: data
     }
 };
 export const orderRequestFailed = (): IOrderRequestFailedAction => {
@@ -40,7 +40,7 @@ export type TOrderActions = IOrderRequestAction | IOrderRequestSuccessAction | I
 export const createOrder: TAppThunk = (orderData, token) => (dispatch) => {
     dispatch(orderRequest);
     api.createOrder(orderData, token).then(res => {
-        dispatch(orderRequestSuccess(res.order));
+        dispatch(orderRequestSuccess(res.order.number));
     }).catch(() => {
         dispatch(orderRequestFailed);
     });

@@ -6,10 +6,6 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const modalRoot: HTMLElement = document.getElementById('modal-root') as HTMLElement;
-interface SyntheticEvent<T> {
-    currentTarget: EventTarget & T;
-    target : EventTarget & T;
-}
 
 interface IModal {
     modalActive: boolean,
@@ -30,11 +26,9 @@ const Modal: FC<IModal> = ({ modalActive, closeModal, children }) => {
 
     }, [modalActive, closeModal]);
 
-    const handleOverlayClose = (evt: SyntheticEvent<EventTarget>) => {
-        if (!(evt.target instanceof HTMLButtonElement)) {
-            return;
-        }
-        if (modalActive && evt.target.dataset.element === 'overlay') {
+    const handleOverlayClose = (evt: React.MouseEvent<HTMLElement>) => {
+        const target = evt.target as HTMLElement;
+        if (modalActive && target.dataset.element === 'overlay') {
             closeModal();
         }
     }

@@ -31,7 +31,7 @@ const Ingredient: FC<IOneIngredient> = ({ item }) => {
 
     useEffect(() => {
         if (item.type !== 'bun') {
-            return setCount(addedItems.ingredients.filter((ingredient : IIngredient) => ingredient._id === item._id).length);
+            return setCount(addedItems.ingredients.filter(ingredient => ingredient._id === item._id).length);
         } else if (item.type === 'bun' && addedItems.bun !== null && item._id === addedItems.bun._id) {
             setCount(1);
         } else if (item.type === 'bun' && addedItems.bun !== null && item._id !== addedItems.bun._id) {

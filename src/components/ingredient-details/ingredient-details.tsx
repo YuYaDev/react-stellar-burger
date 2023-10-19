@@ -1,10 +1,8 @@
 import styles from "../ingredient-details/ingredient-details.module.css";
 import {useParams} from "react-router-dom";
-import {getIngredients} from "../../services/actions/ingredients";
 import {useEffect, useState} from "react";
 import {getCurrentIngredient, getIngredientList} from "../../services/selectors/selectors";
-import {IIngredient} from "../../services/types/data";
-import {useAppDispatch, useAppSelector} from "../../services/types";
+import {useAppSelector} from "../../services/types";
 
 
 const IngredientDetails  = () => {
@@ -14,22 +12,15 @@ const IngredientDetails  = () => {
     let currentIngredient = useAppSelector(getCurrentIngredient);
 
     useEffect(()=>{
-        if(JSON.stringify(currentIngredient) === '{}'){
+        if(!currentIngredient){
             setPageView(true);
         }else{
             setPageView(false);
         }
     }, [currentIngredient])
 
-    const dispatch = useAppDispatch();
-    useEffect(()=>{
-        if (ingredientList.length === 0){
-            dispatch(getIngredients());
-        }
-    }, [dispatch, ingredientList])
-
     if(pageView){
-        let ingredient = ingredientList.find((item : IIngredient) => item._id === id);
+        let ingredient = ingredientList.find(item => item._id === id);
         if (ingredient)
             currentIngredient = ingredient;
     }

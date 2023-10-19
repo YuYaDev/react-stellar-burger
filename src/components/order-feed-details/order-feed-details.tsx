@@ -7,7 +7,6 @@ import {
     isAllOrdersStartConnection, isUserOrdersConnected, isUserOrdersStartConnection
 } from "../../services/selectors/selectors";
 import {useEffect, useMemo, useState} from "react";
-import {getIngredients} from "../../services/actions/ingredients";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IIngredient, IOrder} from "../../services/types/data";
 import {useAppDispatch, useAppSelector} from "../../services/types";
@@ -28,23 +27,22 @@ function OrderFeedDetails(){
     const isConnectionStarted = useAppSelector(source === 'feed' ? isAllOrdersStartConnection : isUserOrdersStartConnection);
 
     const [startConnectionInside, setConnectionInside] = useState(false);
+
     let currentOrder: any  = {}; // IOrder
     let orderIngredients: IIngredient[] = [];
 
     const items = useAppSelector(getIngredientList);
     const dispatch = useAppDispatch();
+
     useEffect(()=>{
-        if (items.length === 0){
-            dispatch(getIngredients());
-        }
-        if(!orders && !isConnected && !isConnectionStarted) {
+        if(orders.length < 1 && !isConnected && !isConnectionStarted) {
             if(source === 'feed')
                 dispatch(wsConnectionStart());
             else
                 dispatch(wsUserConnectionStart());
             setConnectionInside(true)
         }
-    }, [dispatch, items, orders, isConnected, isConnectionStarted, source])
+    }, [dispatch, orders, isConnected, isConnectionStarted, source])
 
     useEffect(()=>{
         return () => {
@@ -65,14 +63,14 @@ function OrderFeedDetails(){
         }, 0);
     }, [orderIngredients]);
 
-    if (orders)
-        currentOrder = orders.find((item: IOrder) => item._id === id);
-    if (orders && items)
-        orderIngredients = items.filter((ingredient: IIngredient) => currentOrder.ingredients.includes(ingredient._id));
+    if (orders.length > 0) {
+        currentOrder = orders.find(item => item._id === id);
+        orderIngredients = items.filter(ingredient => currentOrder.ingredients.includes(ingredient._id));
+    }
 
     return(
         <>
-            {   orders && items &&
+            {   orders.length > 0 &&
                 <div className={`${styles.orderDetails} p-4`}>
                     <p className={'text text_type_digits-default pb-4'}>#{currentOrder.number}</p>
                     <div className={styles.orderDetails__container}>

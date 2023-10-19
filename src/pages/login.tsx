@@ -2,14 +2,14 @@ import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-b
 import styles from './auth.module.css'
 import {Link} from "react-router-dom";
 import {login} from "../services/actions/auth";
-import {useDispatch} from "react-redux";
 import {useForm} from "../hooks/useForm";
 import React from "react";
+import {useAppDispatch} from "../services/types";
 
 function LoginPage() {
     const {values, handleChange} = useForm({name: '', email: '', password: ''});
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(login(values));

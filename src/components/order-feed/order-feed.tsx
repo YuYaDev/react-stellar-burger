@@ -16,13 +16,6 @@ const OrderFeed: FC<IOrderFeed> = ({ orders, link, showStatus }) =>{
     const location = useLocation();
     const items = useAppSelector(getIngredientList);
 
-    const dispatch = useAppDispatch();
-    useEffect(()=>{
-        if (items.length === 0){
-            dispatch(getIngredients());
-        }
-    }, [dispatch, items])
-
     return (
         <section className={styles.orderFeed}>
             <div className={`${styles.orderFeed__orders} custom-scroll`}>

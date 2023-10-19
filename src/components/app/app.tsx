@@ -19,6 +19,7 @@ import OrderFeedDetails from "../order-feed-details/order-feed-details";
 import EditUserForm from "../edit-user-form/edit-user-form";
 import ProfileOrders from "../../pages/profile-orders";
 import {useAppDispatch} from "../../services/types";
+import {getIngredients} from "../../services/actions/ingredients";
 
 function App() {
     let location = useLocation();
@@ -31,6 +32,7 @@ function App() {
         if(token){
             dispatch(getUserInfo(token))
         }
+        dispatch(getIngredients());
     }, [dispatch])
 
     const closeModal = () => {
